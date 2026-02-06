@@ -927,10 +927,66 @@ main ul li::before {
     position: relative;
     z-index: 1;
 }
+/* Hamburger Menu */
+.hamburger {
+    display: none;
+    flex-direction: column;
+    gap: 5px;
+    cursor: pointer;
+    z-index: 200;
+    padding: 5px;
+}
+
+.hamburger span {
+    width: 28px;
+    height: 3px;
+    background: #667eea;
+    border-radius: 3px;
+    transition: all 0.3s ease;
+}
+
+.hamburger.active span:nth-child(1) {
+    transform: rotate(45deg) translate(5px, 6px);
+}
+
+.hamburger.active span:nth-child(2) {
+    opacity: 0;
+}
+
+.hamburger.active span:nth-child(3) {
+    transform: rotate(-45deg) translate(5px, -6px);
+}
+
+/* ===== TABLET (max-width: 768px) ===== */
 @media (max-width: 768px) {
+    .hamburger {
+        display: flex;
+    }
+
     .nav-menu {
+        position: fixed;
+        top: 0;
+        right: -100%;
+        width: 70%;
+        max-width: 300px;
+        height: 100vh;
+        background: white;
         flex-direction: column;
-        gap: 1rem;
+        justify-content: center;
+        align-items: center;
+        gap: 2rem;
+        box-shadow: -8px 0 30px rgba(0, 0, 0, 0.1);
+        transition: right 0.4s cubic-bezier(0.23, 1, 0.32, 1);
+        z-index: 150;
+        padding: 2rem 0;
+    }
+
+    .nav-menu.active {
+        right: 0;
+    }
+
+    .nav-menu a {
+        font-size: 1.1rem;
     }
 
     .tools-display {
@@ -955,67 +1011,186 @@ main ul li::before {
     .tool-card p {
         font-size: 0.75rem;
     }
-    
+
     .hero {
-        padding: 80px 20px;
-        min-height: 500px;
+        padding: 80px 15px;
+        min-height: auto;
     }
-    
+
     .hero-title {
-        font-size: 2.8rem;
-    }
-    
-    .hero-subtitle {
-        font-size: 1.1rem;
-    }
-    
-    .services-detail-section {
-        padding: 70px 20px;
-        margin: 0 0 60px 0;
-        border-radius: 15px;
-    }
-    
-    .detail-card {
-        padding: 3rem 2rem;
-    }
-    
-    .detail-card h2 {
         font-size: 2.2rem;
     }
-    
-    .detail-card h3 {
-        font-size: 1.5rem;
-        margin-top: 2.5rem;
-        margin-bottom: 1.5rem;
+
+    .hero-subtitle {
+        font-size: 1rem;
     }
-    
+
+    .profile-photo img {
+        width: 150px;
+        height: 150px;
+    }
+
+    main {
+        padding: 40px 0;
+    }
+
+    .services-detail-section {
+        padding: 50px 15px;
+        margin: 0 10px 40px 10px;
+        border-radius: 15px;
+    }
+
+    .detail-card {
+        padding: 2rem 1.5rem;
+    }
+
+    .detail-card h2 {
+        font-size: 1.8rem;
+    }
+
+    .detail-card h3 {
+        font-size: 1.3rem;
+        margin-top: 2rem;
+        margin-bottom: 1.2rem;
+    }
+
+    .detail-intro {
+        font-size: 1rem;
+    }
+
     .services-list, .benefits-list {
         grid-template-columns: 1fr;
-        gap: 1.5rem;
+        gap: 1rem;
     }
-    
+
     .service-item, .benefit-item {
-        padding: 1.5rem;
-        gap: 1.2rem;
+        padding: 1.2rem;
+        gap: 1rem;
     }
-    
+
+    .service-item span:first-child, .benefit-item span:first-child {
+        font-size: 1.8rem;
+        min-width: 2.5rem;
+    }
+
+    .features-section {
+        padding: 50px 15px;
+    }
+
     .features-grid {
         grid-template-columns: 1fr;
         gap: 1.5rem;
     }
-    
+
     .feature-card {
-        padding: 2.5rem 2rem;
+        padding: 2rem 1.5rem;
     }
-    
+
+    .feature-icon {
+        font-size: 2.5rem;
+    }
+
     .intro-section {
-        padding: 60px 20px;
-        margin: 0 0 60px 0;
+        padding: 50px 15px;
+        margin: 0 10px 40px 10px;
         border-radius: 15px;
     }
-    
+
     .intro-section h2,
     .features-section h2 {
+        font-size: 1.8rem;
+        margin-bottom: 1.5rem;
+    }
+
+    .intro-section p {
+        font-size: 1rem;
+    }
+
+    section h2 {
+        font-size: 1.6rem;
+    }
+
+    .contact-card {
+        padding: 1.5rem;
+    }
+
+    .contact-icon {
         font-size: 2.2rem;
+    }
+
+    .contact-link {
+        font-size: 0.9rem;
+        padding: 0.6rem 1rem;
+    }
+
+    footer {
+        padding: 2rem 0;
+        margin-top: 3rem;
+    }
+}
+
+/* ===== SMALL MOBILE (max-width: 480px) ===== */
+@media (max-width: 480px) {
+    .hero {
+        padding: 60px 15px;
+    }
+
+    .hero-title {
+        font-size: 1.8rem;
+    }
+
+    .hero-subtitle {
+        font-size: 0.9rem;
+    }
+
+    .profile-photo img {
+        width: 120px;
+        height: 120px;
+    }
+
+    .cta-button {
+        padding: 12px 30px;
+        font-size: 0.9rem;
+    }
+
+    .nav-menu {
+        width: 80%;
+    }
+
+    .detail-card {
+        padding: 1.5rem 1rem;
+    }
+
+    .detail-card h2 {
+        font-size: 1.5rem;
+    }
+
+    .detail-card h3 {
+        font-size: 1.2rem;
+    }
+
+    .service-item, .benefit-item {
+        padding: 1rem;
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+    }
+
+    .feature-card {
+        padding: 1.5rem 1rem;
+    }
+
+    .intro-section h2,
+    .features-section h2 {
+        font-size: 1.5rem;
+    }
+
+    .contact-link {
+        font-size: 0.8rem;
+    }
+
+    .services-detail-section {
+        margin: 0 5px 30px 5px;
+        padding: 40px 10px;
     }
 }
