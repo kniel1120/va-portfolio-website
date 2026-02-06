@@ -1849,7 +1849,7 @@ section:has(.service) {
 .showcase-image img {
     width: 100%;
     height: auto;
-    max-height: 3.5in;
+    max-height: 5in;
     object-fit: contain;
     transition: transform 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
 }
