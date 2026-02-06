@@ -1,34 +1,211 @@
 // VA Portfolio - Modern Interactivity & Advanced Animations
 
-const createObserver = () => {
-    const observerOptions = {
-        threshold: 0.1,
-        rootMargin: '0px 0px -50px 0px'
-    };
-    
-    const observer = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                entry.target.style.opacity = '1';
-                entry.target.style.animation = 'fadeInUp 0.6s ease forwards';
-                observer.unobserve(entry.target);
-            }
-        });
-    }, observerOptions);
-    
-    return observer;
-};
+// ===== SCROLL-TRIGGERED ANIMATIONS =====
+const scrollObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+        if (entry.isIntersecting) {
+            entry.target.classList.add('scroll-show');
+            scrollObserver.unobserve(entry.target);
+        }
+    });
+}, { threshold: 0.15, rootMargin: '0px 0px -60px 0px' });
 
+// ===== STAGGER CHILDREN OBSERVER =====
+const staggerObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+        if (entry.isIntersecting) {
+            entry.target.classList.add('animated');
+            staggerObserver.unobserve(entry.target);
+        }
+    });
+}, { threshold: 0.1 });
+
+// ===== COUNTER ANIMATION =====
+function animateCounter(el) {
+    const target = parseInt(el.getAttribute('data-count'), 10);
+    const suffix = el.getAttribute('data-suffix') || '';
+    const duration = 2000;
+    const start = performance.now();
+    const update = (now) => {
+        const elapsed = now - start;
+        const progress = Math.min(elapsed / duration, 1);
+        const ease = 1 - Math.pow(1 - progress, 3);
+        el.textContent = Math.floor(target * ease) + suffix;
+        if (progress < 1) requestAnimationFrame(update);
+    };
+    requestAnimationFrame(update);
+}
+
+const counterObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+        if (entry.isIntersecting) {
+            animateCounter(entry.target);
+            counterObserver.unobserve(entry.target);
+        }
+    });
+}, { threshold: 0.5 });
+
+// ===== TILT CARD EFFECT =====
+function addTiltEffect(card) {
+    card.addEventListener('mousemove', (e) => {
+        const rect = card.getBoundingClientRect();
+        const x = e.clientX - rect.left;
+        const y = e.clientY - rect.top;
+        const centerX = rect.width / 2;
+        const centerY = rect.height / 2;
+        const rotateX = ((y - centerY) / centerY) * -8;
+        const rotateY = ((x - centerX) / centerX) * 8;
+        card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateY(-10px)`;
+    });
+    card.addEventListener('mouseleave', () => {
+        card.style.transform = 'perspective(1000px) rotateX(0) rotateY(0) translateY(0)';
+    });
+}
+
+// ===== RIPPLE EFFECT ON BUTTONS =====
+function addRipple(e) {
+    const btn = e.currentTarget;
+    const ripple = document.createElement('span');
+    ripple.className = 'ripple-effect';
+    const rect = btn.getBoundingClientRect();
+    ripple.style.left = (e.clientX - rect.left) + 'px';
+    ripple.style.top = (e.clientY - rect.top) + 'px';
+    btn.appendChild(ripple);
+    setTimeout(() => ripple.remove(), 600);
+}
+
+// ===== PARALLAX ON HERO =====
+function initParallax() {
+    const hero = document.querySelector('.hero');
+    if (!hero) return;
+    window.addEventListener('scroll', () => {
+        const scrolled = window.pageYOffset;
+        const heroContent = hero.querySelector('.hero-content');
+        if (heroContent && scrolled < hero.offsetHeight) {
+            heroContent.style.transform = `translateY(${scrolled * 0.3}px)`;
+            heroContent.style.opacity = 1 - (scrolled / hero.offsetHeight) * 0.6;
+        }
+        // Move particles at different speeds
+        hero.querySelectorAll('.particle').forEach((p, i) => {
+            const speed = 0.1 + (i * 0.05);
+            p.style.transform = `translateY(${scrolled * speed}px)`;
+        });
+    });
+}
+
+// ===== NAVBAR SHRINK ON SCROLL =====
+function initNavShrink() {
+    const navbar = document.querySelector('.navbar');
+    if (!navbar) return;
+    window.addEventListener('scroll', () => {
+        if (window.scrollY > 80) {
+            navbar.style.padding = '0.6rem 0';
+            navbar.style.boxShadow = '0 4px 20px rgba(0, 0, 0, 0.12)';
+        } else {
+            navbar.style.padding = '1.2rem 0';
+            navbar.style.boxShadow = '0 8px 32px rgba(0, 0, 0, 0.08)';
+        }
+    });
+}
+
+// ===== TYPING EFFECT =====
+function typeText(element, text, speed = 60) {
+    element.textContent = '';
+    let i = 0;
+    element.style.borderRight = '2px solid white';
+    const type = () => {
+        if (i < text.length) {
+            element.textContent += text.charAt(i);
+            i++;
+            setTimeout(type, speed);
+        } else {
+            // Blink cursor then remove
+            setTimeout(() => { element.style.borderRight = 'none'; }, 2000);
+        }
+    };
+    type();
+}
+
+// ===== INITIALIZE EVERYTHING =====
 document.addEventListener('DOMContentLoaded', () => {
-    const observer = createObserver();
-    const elementsToAnimate = document.querySelectorAll('.feature-card, .service');
-    elementsToAnimate.forEach(el => {
-        el.style.opacity = '0';
-        observer.observe(el);
+    // Scroll-triggered elements: alternate left/right for service items
+    const sections = document.querySelectorAll('.intro-section, .features-section, .services-detail-section, section');
+    sections.forEach(section => {
+        const heading = section.querySelector('h2');
+        if (heading && !heading.classList.contains('scroll-hidden')) {
+            heading.classList.add('scroll-hidden', 'from-bottom');
+            scrollObserver.observe(heading);
+        }
     });
 
-    const links = document.querySelectorAll('a[href^="#"]');
-    links.forEach(link => {
+    // Animate service items alternating left/right
+    document.querySelectorAll('.service-item').forEach((item, i) => {
+        item.classList.add('scroll-hidden', i % 2 === 0 ? 'from-left' : 'from-right');
+        item.style.transitionDelay = `${i * 0.08}s`;
+        scrollObserver.observe(item);
+    });
+
+    // Animate benefit items from bottom
+    document.querySelectorAll('.benefit-item').forEach((item, i) => {
+        item.classList.add('scroll-hidden', 'from-bottom');
+        item.style.transitionDelay = `${i * 0.1}s`;
+        scrollObserver.observe(item);
+    });
+
+    // Feature cards with scale
+    document.querySelectorAll('.feature-card').forEach((card, i) => {
+        card.classList.add('scroll-hidden', 'from-scale');
+        card.style.transitionDelay = `${i * 0.15}s`;
+        scrollObserver.observe(card);
+    });
+
+    // Testimonials stagger
+    document.querySelectorAll('.service').forEach((card, i) => {
+        card.classList.add('scroll-hidden', 'from-bottom');
+        card.style.transitionDelay = `${i * 0.1}s`;
+        scrollObserver.observe(card);
+    });
+
+    // Contact cards with rotate entrance
+    document.querySelectorAll('.contact-card').forEach((card, i) => {
+        card.classList.add('scroll-hidden', 'from-scale');
+        card.style.transitionDelay = `${i * 0.15}s`;
+        scrollObserver.observe(card);
+    });
+
+    // Tool cards - stagger parent
+    const toolGrids = document.querySelectorAll('.tool-card');
+    toolGrids.forEach((card, i) => {
+        card.classList.add('scroll-hidden', 'from-bottom');
+        card.style.transitionDelay = `${i * 0.04}s`;
+        scrollObserver.observe(card);
+    });
+
+    // Tilt effect on feature cards
+    document.querySelectorAll('.feature-card').forEach(addTiltEffect);
+
+    // Ripple on CTA buttons
+    document.querySelectorAll('.cta-button, .contact-link, [href^="mailto:"], [href^="tel:"]').forEach(btn => {
+        btn.classList.add('ripple-btn');
+        btn.addEventListener('click', addRipple);
+    });
+
+    // Counter animation for any data-count elements
+    document.querySelectorAll('[data-count]').forEach(el => counterObserver.observe(el));
+
+    // Typing effect for hero subtitle
+    const heroSubtitle = document.querySelector('.hero-subtitle');
+    if (heroSubtitle) {
+        const text = heroSubtitle.textContent;
+        setTimeout(() => typeText(heroSubtitle, text, 45), 600);
+    }
+
+    // Init parallax and nav shrink
+    initParallax();
+    initNavShrink();
+
+    // Smooth scroll
+    document.querySelectorAll('a[href^="#"]').forEach(link => {
         link.addEventListener('click', function(e) {
             e.preventDefault();
             const targetId = this.getAttribute('href');
@@ -38,57 +215,6 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
     });
-
-    const contactForm = document.querySelector('#contact-form');
-    if (contactForm) {
-        const inputs = contactForm.querySelectorAll('input, textarea');
-        
-        inputs.forEach((input, index) => {
-            input.style.animationDelay = `${index * 0.1}s`;
-            input.addEventListener('focus', function() {
-                this.style.borderColor = '#667eea';
-                this.style.boxShadow = '0 0 0 3px rgba(102, 126, 234, 0.1)';
-                this.style.transform = 'scale(1.01)';
-            });
-            input.addEventListener('blur', function() {
-                this.style.borderColor = '#e0e0e0';
-                this.style.boxShadow = 'none';
-                this.style.transform = 'scale(1)';
-            });
-        });
-        
-        contactForm.addEventListener('submit', function(e) {
-            e.preventDefault();
-            const name = contactForm.querySelector('#name').value.trim();
-            const email = contactForm.querySelector('#email').value.trim();
-            const message = contactForm.querySelector('#message').value.trim();
-            
-            if (name && email && message) {
-                const button = contactForm.querySelector('button');
-                const originalText = button.textContent;
-                const originalBg = button.style.background;
-                
-                button.textContent = '\u2713 Message Sent Successfully!';
-                button.style.background = 'linear-gradient(135deg, #4caf50 0%, #45a049 100%)';
-                button.disabled = true;
-                button.style.pointerEvents = 'none';
-                
-                contactForm.reset();
-                inputs.forEach(input => {
-                    input.style.animation = 'fadeInUp 0.3s ease';
-                });
-                
-                setTimeout(() => {
-                    button.textContent = originalText;
-                    button.style.background = originalBg;
-                    button.disabled = false;
-                    button.style.pointerEvents = 'auto';
-                }, 4000);
-            } else {
-                alert('Please fill in all fields');
-            }
-        });
-    }
 
     document.documentElement.style.scrollBehavior = 'smooth';
 });
