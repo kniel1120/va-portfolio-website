@@ -562,6 +562,10 @@ main ul li::before {
     font-weight: bold;
 }
 
+.nav-menu {
+    list-style: none;
+}
+
 .nav-menu li {
     padding: 0;
     padding-left: 0;
@@ -569,6 +573,7 @@ main ul li::before {
 
 .nav-menu li::before {
     content: none;
+    display: none;
 }
 
 /* Animations */
