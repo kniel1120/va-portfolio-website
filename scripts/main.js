@@ -128,14 +128,33 @@ function typeText(element, text, speed = 60) {
 
 // ===== INITIALIZE EVERYTHING =====
 document.addEventListener('DOMContentLoaded', () => {
-    // Scroll-triggered elements: alternate left/right for service items
+    // Scroll-triggered elements: section headings
     const sections = document.querySelectorAll('.intro-section, .features-section, .services-detail-section, section');
     sections.forEach(section => {
         const heading = section.querySelector('h2');
-        if (heading && !heading.classList.contains('scroll-hidden')) {
+        if (heading && !heading.classList.contains('scroll-hidden') && !heading.closest('.hero')) {
             heading.classList.add('scroll-hidden', 'from-bottom');
             scrollObserver.observe(heading);
         }
+    });
+
+    // Animate detail-cards and detail-intros
+    document.querySelectorAll('.detail-card').forEach(card => {
+        card.classList.add('scroll-hidden', 'from-bottom');
+        scrollObserver.observe(card);
+    });
+
+    // Animate intro section paragraphs
+    document.querySelectorAll('.intro-section p').forEach((p, i) => {
+        p.classList.add('scroll-hidden', 'from-bottom');
+        p.style.transitionDelay = `${i * 0.15}s`;
+        scrollObserver.observe(p);
+    });
+
+    // Animate h3 headings inside detail-cards
+    document.querySelectorAll('.detail-card h3').forEach(h3 => {
+        h3.classList.add('scroll-hidden', 'from-left');
+        scrollObserver.observe(h3);
     });
 
     // Animate service items alternating left/right
@@ -193,11 +212,12 @@ document.addEventListener('DOMContentLoaded', () => {
     // Counter animation for any data-count elements
     document.querySelectorAll('[data-count]').forEach(el => counterObserver.observe(el));
 
-    // Typing effect for hero subtitle
+    // Typing effect for hero subtitle — wait for slideInUp to finish first
     const heroSubtitle = document.querySelector('.hero-subtitle');
     if (heroSubtitle) {
         const text = heroSubtitle.textContent;
-        setTimeout(() => typeText(heroSubtitle, text, 45), 600);
+        // slideInUp is 0.8s with 0.4s delay = 1.2s total
+        setTimeout(() => typeText(heroSubtitle, text, 45), 1400);
     }
 
     // Init parallax and nav shrink
