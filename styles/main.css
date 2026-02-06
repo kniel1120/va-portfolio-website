@@ -555,7 +555,7 @@ ul li {
 }
 
 ul li::before {
-    content: '✓';
+    content: '\2713';
     position: absolute;
     left: 0;
     color: #667eea;
@@ -998,12 +998,3 @@ ul li::before {
     .features-section h2 {
         font-size: 2.2rem;
     }
-    
-    .intro-section p {
-        font-size: 1rem;
-    }
-    
-    .contact-form {
-        padding: 2rem;
-    }
-}

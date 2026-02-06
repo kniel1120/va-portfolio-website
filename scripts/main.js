@@ -68,7 +68,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 const originalText = button.textContent;
                 const originalBg = button.style.background;
                 
-                button.textContent = '✓ Message Sent Successfully!';
+                button.textContent = '\u2713 Message Sent Successfully!';
                 button.style.background = 'linear-gradient(135deg, #4caf50 0%, #45a049 100%)';
                 button.disabled = true;
                 button.style.pointerEvents = 'none';
