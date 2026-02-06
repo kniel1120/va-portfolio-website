@@ -547,19 +547,28 @@ ul {
     padding-left: 0;
 }
 
-ul li {
+main ul li {
     padding: 0.8rem 0;
     padding-left: 2rem;
     position: relative;
     color: #555;
 }
 
-ul li::before {
+main ul li::before {
     content: '\2713';
     position: absolute;
     left: 0;
     color: #667eea;
     font-weight: bold;
+}
+
+.nav-menu li {
+    padding: 0;
+    padding-left: 0;
+}
+
+.nav-menu li::before {
+    content: none;
 }
 
 /* Animations */
@@ -782,10 +791,16 @@ ul li::before {
 }
 
 .service-item span:last-child, .benefit-item span:last-child {
-    color: #333;
+    color: #333 !important;
     font-weight: 500;
     font-size: 0.98rem;
     line-height: 1.6;
+    opacity: 1 !important;
+    visibility: visible !important;
+}
+
+.service-item strong, .benefit-item strong {
+    color: #1a1f36 !important;
 }
 
 .detail-card h3 {
@@ -998,3 +1013,4 @@ ul li::before {
     .features-section h2 {
         font-size: 2.2rem;
     }
+}
