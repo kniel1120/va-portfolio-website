@@ -236,6 +236,44 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
+    // ===== CURSOR GLOW FOLLOWER =====
+    const cursorGlow = document.getElementById('cursorGlow');
+    if (cursorGlow && window.innerWidth > 768) {
+        let mouseX = 0, mouseY = 0;
+        let glowX = 0, glowY = 0;
+
+        document.addEventListener('mousemove', (e) => {
+            mouseX = e.clientX;
+            mouseY = e.clientY;
+            cursorGlow.classList.add('active');
+        });
+
+        document.addEventListener('mouseleave', () => {
+            cursorGlow.classList.remove('active');
+        });
+
+        // Smooth follow with lerp
+        function updateGlow() {
+            glowX += (mouseX - glowX) * 0.08;
+            glowY += (mouseY - glowY) * 0.08;
+            cursorGlow.style.left = glowX + 'px';
+            cursorGlow.style.top = glowY + 'px';
+            requestAnimationFrame(updateGlow);
+        }
+        updateGlow();
+    }
+
+    // ===== SCROLL PROGRESS BAR =====
+    const progressBar = document.createElement('div');
+    progressBar.className = 'scroll-progress';
+    document.body.prepend(progressBar);
+    window.addEventListener('scroll', () => {
+        const scrollTop = document.documentElement.scrollTop;
+        const scrollHeight = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+        const progress = (scrollTop / scrollHeight) * 100;
+        progressBar.style.width = progress + '%';
+    });
+
     document.documentElement.style.scrollBehavior = 'smooth';
 });
 
