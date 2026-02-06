@@ -1755,7 +1755,7 @@ section:has(.service) {
    WORK IN ACTION SHOWCASE
    ============================ */
 .work-showcase-section {
-    padding: 60px 20px;
+    padding: 40px 20px;
     background: #fefefe;
     position: relative;
     overflow: hidden;
@@ -1787,7 +1787,7 @@ section:has(.service) {
 
 .work-showcase-section h2 {
     font-family: 'Playfair Display', serif;
-    font-size: 1.8rem;
+    font-size: 1.5rem;
     color: #2d3748;
     position: relative;
 }
@@ -1795,26 +1795,26 @@ section:has(.service) {
 .work-showcase-section h2::after {
     content: '';
     display: block;
-    width: 60px;
-    height: 3px;
+    width: 40px;
+    height: 2px;
     background: linear-gradient(90deg, #667eea, #764ba2);
-    margin: 0.8rem auto 0;
+    margin: 0.5rem auto 0;
     border-radius: 2px;
 }
 
 .showcase-grid {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
-    gap: 1.5rem;
-    max-width: 800px;
+    gap: 1rem;
+    max-width: 600px;
     margin: 0 auto;
 }
 
 .showcase-card {
     background: #fff;
-    border-radius: 12px;
+    border-radius: 10px;
     overflow: hidden;
-    box-shadow: 0 3px 16px rgba(0, 0, 0, 0.06);
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.06);
     transition: transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94), box-shadow 0.4s ease;
     position: relative;
 }
@@ -1848,7 +1848,7 @@ section:has(.service) {
 
 .showcase-image img {
     width: 100%;
-    height: 200px;
+    height: 150px;
     object-fit: cover;
     object-position: top;
     transition: transform 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
@@ -1859,7 +1859,7 @@ section:has(.service) {
 }
 
 .showcase-info {
-    padding: 1rem 1.2rem 1.2rem;
+    padding: 0.7rem 0.9rem 0.9rem;
 }
 
 .showcase-tag {
@@ -1877,36 +1877,36 @@ section:has(.service) {
 
 .showcase-info h3 {
     font-family: 'Playfair Display', serif;
-    font-size: 1.1rem;
+    font-size: 0.95rem;
     color: #2d3748;
-    margin-bottom: 0.35rem;
+    margin-bottom: 0.25rem;
 }
 
 .showcase-info p {
     color: #718096;
-    font-size: 0.82rem;
-    line-height: 1.55;
+    font-size: 0.75rem;
+    line-height: 1.45;
 }
 
 @media (max-width: 768px) {
     .showcase-grid {
         grid-template-columns: 1fr;
-        gap: 1.2rem;
-        max-width: 400px;
+        gap: 1rem;
+        max-width: 300px;
     }
 
     .showcase-image img {
-        height: 180px;
+        height: 140px;
     }
 
     .work-showcase-section {
-        padding: 40px 15px;
+        padding: 30px 15px;
     }
 }
 
 @media (max-width: 480px) {
     .showcase-image img {
-        height: 150px;
+        height: 120px;
     }
 
     .showcase-info {
