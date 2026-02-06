@@ -192,6 +192,20 @@ document.addEventListener('DOMContentLoaded', () => {
         scrollObserver.observe(card);
     });
 
+    // Work showcase cards
+    document.querySelectorAll('.showcase-card').forEach((card, i) => {
+        card.classList.add('scroll-hidden', i === 0 ? 'from-left' : 'from-right');
+        card.style.transitionDelay = `${i * 0.2}s`;
+        scrollObserver.observe(card);
+    });
+
+    // Work showcase subtitle
+    const showcaseP = document.querySelector('.work-showcase-section p');
+    if (showcaseP) {
+        showcaseP.classList.add('scroll-hidden', 'from-bottom');
+        scrollObserver.observe(showcaseP);
+    }
+
     // Tool cards - stagger parent
     const toolGrids = document.querySelectorAll('.tool-card');
     toolGrids.forEach((card, i) => {
