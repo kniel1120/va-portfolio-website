@@ -487,7 +487,7 @@
             font-family: 'Poppins', sans-serif;
         }
 
-        .chat-bubble {
+        .chat-toggle {
             width: 60px;
             height: 60px;
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
@@ -498,222 +498,514 @@
             cursor: pointer;
             box-shadow: 0 4px 20px rgba(102, 126, 234, 0.4);
             transition: all 0.3s ease;
+            border: none;
+            position: relative;
         }
 
-        .chat-bubble:hover {
+        .chat-toggle:hover {
             transform: scale(1.1);
             box-shadow: 0 8px 30px rgba(102, 126, 234, 0.5);
         }
 
-        .chat-bubble span {
-            font-size: 1.8rem;
+        .chat-toggle span {
+            font-size: 1.7rem;
+            transition: transform 0.3s ease;
         }
 
-        .chat-container {
+        .chat-toggle.open span {
+            transform: rotate(90deg);
+        }
+
+        .chat-toggle .notification-dot {
             position: absolute;
-            bottom: 90px;
+            top: -2px;
+            right: -2px;
+            width: 14px;
+            height: 14px;
+            background: #ff4757;
+            border-radius: 50%;
+            border: 2px solid white;
+            animation: pulse-dot 2s ease infinite;
+        }
+
+        @keyframes pulse-dot {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.2); }
+        }
+
+        .chat-window {
+            position: absolute;
+            bottom: 75px;
             right: 0;
             width: 380px;
-            height: 500px;
-            background: white;
+            height: 520px;
+            background: #fff;
             border-radius: 16px;
-            box-shadow: 0 8px 40px rgba(0, 0, 0, 0.15);
+            box-shadow: 0 10px 50px rgba(0, 0, 0, 0.18);
             display: none;
             flex-direction: column;
             overflow: hidden;
-            animation: slideUp 0.3s ease;
+            transform-origin: bottom right;
         }
 
-        .chat-container.active {
+        .chat-window.active {
             display: flex;
+            animation: chatOpen 0.3s cubic-bezier(0.23, 1, 0.32, 1);
         }
 
-        @keyframes slideUp {
-            from {
-                opacity: 0;
-                transform: translateY(20px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
+        @keyframes chatOpen {
+            from { opacity: 0; transform: scale(0.9) translateY(10px); }
+            to { opacity: 1; transform: scale(1) translateY(0); }
         }
 
-        .chat-header {
+        .chat-window-header {
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 1.2rem 1.3rem;
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+        }
+
+        .chat-avatar {
+            width: 38px;
+            height: 38px;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            flex-shrink: 0;
+        }
+
+        .chat-header-info {
+            flex: 1;
+        }
+
+        .chat-header-info h4 {
             color: white;
-            padding: 1.5rem;
+            font-size: 0.95rem;
+            margin: 0;
             font-weight: 600;
+        }
+
+        .chat-header-info span {
+            color: rgba(255,255,255,0.8);
+            font-size: 0.72rem;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .chat-header-info .online-dot {
+            width: 7px;
+            height: 7px;
+            background: #2ecc71;
+            border-radius: 50%;
+            display: inline-block;
+        }
+
+        .chat-close-btn {
+            color: white;
+            background: rgba(255,255,255,0.15);
+            border: none;
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            cursor: pointer;
             font-size: 1rem;
             display: flex;
-            justify-content: space-between;
             align-items: center;
+            justify-content: center;
+            transition: background 0.2s;
         }
 
-        .chat-close {
-            cursor: pointer;
-            font-size: 1.5rem;
-            opacity: 0.8;
-            transition: opacity 0.2s;
+        .chat-close-btn:hover {
+            background: rgba(255,255,255,0.3);
         }
 
-        .chat-close:hover {
-            opacity: 1;
-        }
-
-        .chat-body {
+        .chat-messages {
             flex: 1;
             overflow-y: auto;
-            padding: 1.5rem;
+            padding: 1rem 1rem 0.5rem;
             display: flex;
             flex-direction: column;
-            gap: 1rem;
+            gap: 0.6rem;
+            scroll-behavior: smooth;
         }
 
-        .chat-message {
-            padding: 0.75rem 1rem;
+        .chat-messages::-webkit-scrollbar {
+            width: 4px;
+        }
+
+        .chat-messages::-webkit-scrollbar-thumb {
+            background: #ddd;
+            border-radius: 4px;
+        }
+
+        .chat-msg {
+            max-width: 85%;
+            padding: 0.65rem 0.9rem;
+            border-radius: 14px;
+            font-size: 0.84rem;
+            line-height: 1.55;
+            animation: msgIn 0.25s ease;
+        }
+
+        @keyframes msgIn {
+            from { opacity: 0; transform: translateY(8px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .chat-msg.bot {
             background: #f0f2f5;
-            border-radius: 12px;
-            font-size: 0.9rem;
-            line-height: 1.5;
             color: #1a1f36;
-            animation: fadeIn 0.3s ease;
+            align-self: flex-start;
+            border-bottom-left-radius: 4px;
         }
 
-        .chat-message.bot {
-            background: linear-gradient(135deg, #667eea15 0%, #764ba215 100%);
-            border-left: 4px solid #667eea;
+        .chat-msg.user {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            align-self: flex-end;
+            border-bottom-right-radius: 4px;
         }
 
-        @keyframes fadeIn {
-            from {
-                opacity: 0;
-            }
-            to {
-                opacity: 1;
-            }
-        }
-
-        .chat-questions {
-            display: flex;
-            flex-direction: column;
-            gap: 0.75rem;
-        }
-
-        .question-btn {
-            padding: 0.8rem;
-            background: white;
-            border: 1px solid #e0e0e0;
-            border-radius: 8px;
-            cursor: pointer;
-            font-size: 0.85rem;
-            text-align: left;
-            transition: all 0.2s ease;
-            color: #1a1f36;
-            font-family: 'Poppins', sans-serif;
-        }
-
-        .question-btn:hover {
-            background: #f8f9fc;
-            border-color: #667eea;
+        .chat-msg.bot a {
             color: #667eea;
-            font-weight: 500;
+            font-weight: 600;
+            text-decoration: none;
         }
 
-        .chat-footer {
-            padding: 1rem;
-            background: #f8f9fc;
-            border-top: 1px solid #e0e0e0;
-            font-size: 0.8rem;
+        .chat-msg.bot a:hover {
+            text-decoration: underline;
+        }
+
+        .typing-indicator {
+            display: flex;
+            gap: 4px;
+            padding: 0.65rem 0.9rem;
+            align-self: flex-start;
+            background: #f0f2f5;
+            border-radius: 14px;
+            border-bottom-left-radius: 4px;
+        }
+
+        .typing-indicator span {
+            width: 7px;
+            height: 7px;
+            background: #999;
+            border-radius: 50%;
+            animation: typeBounce 1.3s ease infinite;
+        }
+
+        .typing-indicator span:nth-child(2) { animation-delay: 0.15s; }
+        .typing-indicator span:nth-child(3) { animation-delay: 0.3s; }
+
+        @keyframes typeBounce {
+            0%, 60%, 100% { transform: translateY(0); }
+            30% { transform: translateY(-5px); }
+        }
+
+        .quick-replies {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.4rem;
+            padding: 0.5rem 1rem 0.3rem;
+        }
+
+        .quick-reply-btn {
+            background: #f0f2f5;
+            border: 1px solid #e0e3e8;
+            border-radius: 20px;
+            padding: 0.35rem 0.75rem;
+            font-size: 0.75rem;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            font-family: 'Poppins', sans-serif;
             color: #4a5568;
+        }
+
+        .quick-reply-btn:hover {
+            background: #667eea;
+            color: white;
+            border-color: #667eea;
+        }
+
+        .chat-input-area {
+            padding: 0.7rem;
+            border-top: 1px solid #eee;
+            display: flex;
+            gap: 0.5rem;
+            background: #fafbfc;
+        }
+
+        .chat-input-area input {
+            flex: 1;
+            padding: 0.6rem 1rem;
+            border: 1px solid #e0e3e8;
+            border-radius: 24px;
+            font-size: 0.85rem;
+            font-family: 'Poppins', sans-serif;
+            outline: none;
+            transition: border-color 0.2s;
+        }
+
+        .chat-input-area input:focus {
+            border-color: #667eea;
+        }
+
+        .chat-send-btn {
+            width: 38px;
+            height: 38px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            border: none;
+            color: white;
+            font-size: 1.1rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: transform 0.2s, box-shadow 0.2s;
+            flex-shrink: 0;
+        }
+
+        .chat-send-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 3px 12px rgba(102, 126, 234, 0.4);
+        }
+
+        .chat-powered {
             text-align: center;
+            padding: 0.3rem;
+            font-size: 0.65rem;
+            color: #aaa;
+            background: #fafbfc;
         }
 
         @media (max-width: 480px) {
-            .chat-container {
-                width: 100vw;
-                height: 100vh;
-                bottom: 0;
-                right: 0;
-                border-radius: 0;
-            }
-
-            .chat-bubble {
-                bottom: 30px;
-                right: 30px;
+            .chat-window {
+                width: calc(100vw - 20px);
+                height: calc(100vh - 100px);
+                right: -10px;
+                bottom: 70px;
+                border-radius: 12px;
             }
         }
     </style>
 
     <div class="chat-widget">
-        <div class="chat-bubble" id="chatToggle">
+        <button class="chat-toggle" id="chatToggle">
             <span>💬</span>
-        </div>
-        <div class="chat-container" id="chatContainer">
-            <div class="chat-header">
-                <span>Questions? Ask Me! 👋</span>
-                <span class="chat-close" id="chatClose">✕</span>
+            <div class="notification-dot" id="notifDot"></div>
+        </button>
+        <div class="chat-window" id="chatWindow">
+            <div class="chat-window-header">
+                <div class="chat-avatar">🤖</div>
+                <div class="chat-header-info">
+                    <h4>Kniel's AI Assistant</h4>
+                    <span><span class="online-dot"></span> Online now</span>
+                </div>
+                <button class="chat-close-btn" id="chatClose">✕</button>
             </div>
-            <div class="chat-body" id="chatBody">
-                <div class="chat-message">Hi! I'm here to answer your questions. Click any question below:</div>
-                <div class="chat-questions" id="questionsContainer"></div>
+            <div class="chat-messages" id="chatMessages"></div>
+            <div class="quick-replies" id="quickReplies"></div>
+            <div class="chat-input-area">
+                <input type="text" id="chatInput" placeholder="Ask me anything..." autocomplete="off">
+                <button class="chat-send-btn" id="chatSend">➤</button>
             </div>
-            <div class="chat-footer">
-                Need more help? <a href="#contact" style="color: #667eea; text-decoration: none; font-weight: 600;">Contact me directly</a>
-            </div>
+            <div class="chat-powered">AI-Powered Assistant</div>
         </div>
     </div>
 
     <script>
+    (function() {
         const chatToggle = document.getElementById('chatToggle');
+        const chatWindow = document.getElementById('chatWindow');
         const chatClose = document.getElementById('chatClose');
-        const chatContainer = document.getElementById('chatContainer');
-        const chatBody = document.getElementById('chatBody');
-        const questionsContainer = document.getElementById('questionsContainer');
+        const chatMessages = document.getElementById('chatMessages');
+        const chatInput = document.getElementById('chatInput');
+        const chatSend = document.getElementById('chatSend');
+        const quickReplies = document.getElementById('quickReplies');
+        const notifDot = document.getElementById('notifDot');
 
-        const faqData = [
+        // Knowledge base
+        const knowledge = [
             {
-                question: "What services do you offer?",
-                answer: "I specialize in: Email & Calendar Management, Social Media & Brand Management, Customer Relationship Management, Data Organization & Reporting, Content & Communications, and Project & Team Coordination. All tailored to support busy CEOs and entrepreneurs."
+                keywords: ['service', 'offer', 'do', 'help', 'provide', 'what do you', 'what can', 'work'],
+                response: "Kniel offers a full range of executive support services:\n\n📧 <b>Email & Calendar Management</b>\n📱 <b>Social Media & Brand Management</b>\n👥 <b>Customer & Client Relationship Management</b>\n📊 <b>Data Organization & Reporting</b>\n✍️ <b>Content & Communications</b>\n🎯 <b>Project & Team Coordination</b>\n\nWould you like details on any specific service?"
             },
             {
-                question: "How much do you charge?",
-                answer: "Pricing usually depends on the scope of your project and needs. I offer flexible pricing based on the services and hours required. Contact me for a custom quote tailored to your situation."
+                keywords: ['price', 'cost', 'rate', 'charge', 'much', 'fee', 'budget', 'afford', 'package', 'pricing'],
+                response: "Pricing is flexible and depends on the scope of work and hours needed. Kniel offers custom packages tailored to your specific situation.\n\n📩 Reach out for a free quote:\n<a href='mailto:Knielfrancisgalvan11202002@gmail.com'>Knielfrancisgalvan11202002@gmail.com</a>\n📱 <a href='tel:+639685931163'>+63 968 593 1163</a>"
             },
             {
-                question: "What's your availability?",
-                answer: "I'm available anytime if I don't have other projects. My timezone is Asia/Manila. Contact me to get started and we'll set up a consultation to discuss your needs."
+                keywords: ['contact', 'reach', 'email', 'phone', 'call', 'message', 'touch', 'hire', 'book', 'schedule'],
+                response: "You can reach Kniel through:\n\n📩 <b>Email:</b> <a href='mailto:Knielfrancisgalvan11202002@gmail.com'>Knielfrancisgalvan11202002@gmail.com</a>\n📱 <b>Phone:</b> <a href='tel:+639685931163'>+63 968 593 1163</a>\n⏱️ <b>Response time:</b> Within 24 hours\n🕐 <b>Hours:</b> Asia/Manila timezone\n\nFeel free to reach out anytime!"
             },
             {
-                question: "How do I get started?",
-                answer: "Simply reach out! You can email me at Knielfrancisgalvan11202002@gmail.com or call +63 968 593 1163. We'll have a quick conversation to understand your needs and see if we're a good fit."
+                keywords: ['avail', 'time', 'timezone', 'hour', 'when', 'schedule', 'free', 'busy'],
+                response: "Kniel is available during standard business hours in the <b>Asia/Manila timezone</b>. He's flexible and can adjust to your schedule when needed.\n\n⏱️ Average response time is <b>within 24 hours</b>. If he doesn't have other active projects, he's available to start right away!"
+            },
+            {
+                keywords: ['about', 'who', 'tell me', 'background', 'experience', 'kniel', 'himself'],
+                response: "Kniel Francis Galvan is a dedicated <b>Virtual Assistant</b> specializing in executive support for busy CEOs, entrepreneurs, and business leaders.\n\nHe brings:\n💼 Executive-level experience\n🔍 Strong attention to detail\n🚀 Proactive, solution-focused approach\n🔐 Full confidentiality & professionalism\n⚙️ Quick adaptability to any workflow\n💻 Tech-savvy with modern tools"
+            },
+            {
+                keywords: ['tool', 'software', 'tech', 'platform', 'app', 'use', 'program', 'stack'],
+                response: "Kniel is proficient in 20+ tools including:\n\n📧 Gmail, Google Calendar, Docs, Sheets\n📋 Asana, Trello, Monday.com, Notion\n🎨 Canva, CapCut\n📣 Meta, Instagram, TikTok, LinkedIn\n📬 Mailchimp, HubSpot\n💻 VS Code, Excel, Word, PowerPoint\n📹 Zoom, Calendly\n🤖 ChatGPT & Claude\n\nIf there's a tool you use, he can learn it fast!"
+            },
+            {
+                keywords: ['email', 'inbox', 'calendar', 'scheduling', 'appointment'],
+                response: "Kniel excels at <b>Email & Calendar Management</b>:\n\n✅ Inbox organization & prioritization\n✅ Appointment scheduling\n✅ Follow-up management\n✅ Calendar coordination\n\nNever miss an important meeting or email again!"
+            },
+            {
+                keywords: ['social media', 'content', 'post', 'instagram', 'tiktok', 'facebook', 'brand', 'marketing'],
+                response: "Kniel handles <b>Social Media & Brand Management</b>:\n\n📱 Content creation & scheduling\n📊 Platform management (IG, TikTok, FB, LinkedIn)\n✍️ Copywriting & captions\n📈 Engagement & community management\n🎨 Visual content with Canva & CapCut\n\nMaintain your professional presence without the time investment!"
+            },
+            {
+                keywords: ['data', 'spreadsheet', 'report', 'excel', 'sheet', 'entry', 'organize'],
+                response: "Kniel provides <b>Data Organization & Reporting</b>:\n\n📊 Accurate data entry & cleanup\n📈 Spreadsheet management (Excel, Google Sheets)\n📋 Business reporting & dashboards\n🔍 Data analysis & insights\n\nGet clear insights at a glance!"
+            },
+            {
+                keywords: ['project', 'team', 'coordination', 'manage', 'task', 'asana', 'trello', 'monday'],
+                response: "Kniel specializes in <b>Project & Team Coordination</b>:\n\n🎯 Task tracking & deadline management\n👥 Team communication & alignment\n📋 Using Asana, Trello, Monday.com, Notion\n📊 Progress reporting\n\nKeep projects on track and teams aligned!"
+            },
+            {
+                keywords: ['testimonial', 'review', 'client', 'feedback', 'say', 'recommend'],
+                response: "Here's what clients say about Kniel:\n\n⭐ <i>\"Having Kniel handle my admin work freed me up to focus on strategy. Pure productivity gain.\"</i> — CEO, Tech Startup\n\n⭐ <i>\"Kniel is incredibly organized and proactive. He anticipates what I need.\"</i> — Founder, E-commerce\n\n⭐ <i>\"My inbox is finally under control. Game-changer.\"</i> — Executive Director\n\n⭐ <i>\"He gave me back 15+ hours per week.\"</i> — Consultant & Coach"
+            },
+            {
+                keywords: ['start', 'begin', 'onboard', 'getting started', 'how to', 'process', 'work together', 'next step'],
+                response: "Getting started is easy! Here's the process:\n\n1️⃣ <b>Reach out</b> via email or phone\n2️⃣ <b>Quick consultation</b> to understand your needs\n3️⃣ <b>Custom proposal</b> tailored to your requirements\n4️⃣ <b>Start working</b> — fast onboarding!\n\n📩 <a href='mailto:Knielfrancisgalvan11202002@gmail.com'>Email Kniel now</a> to get started!"
+            },
+            {
+                keywords: ['why', 'different', 'better', 'choose', 'advantage', 'benefit', 'special'],
+                response: "Why choose Kniel?\n\n⚡ Fast and responsive\n🧠 Detail-oriented and organized\n📌 Follows systems and instructions\n🚀 Proactive and solution-focused\n🎯 Coachable and eager to improve\n⏰ Can save you <b>10+ hours per week</b>\n🤝 Seamless integration into your workflow\n\nHe doesn't just react — he <b>anticipates</b> your needs!"
+            },
+            {
+                keywords: ['hello', 'hi', 'hey', 'good morning', 'good afternoon', 'good evening', 'sup', 'yo'],
+                response: "Hey there! 👋 Welcome to Kniel's portfolio! I'm his AI assistant and I'm here to help you learn about his services.\n\nFeel free to ask me anything, or pick a topic below!"
+            },
+            {
+                keywords: ['thank', 'thanks', 'appreciate', 'great', 'awesome', 'nice', 'cool', 'perfect'],
+                response: "You're welcome! 😊 Is there anything else you'd like to know about Kniel's services? I'm happy to help!\n\nIf you're ready to get started, don't hesitate to <a href='mailto:Knielfrancisgalvan11202002@gmail.com'>reach out directly</a>!"
+            },
+            {
+                keywords: ['bye', 'goodbye', 'see you', 'later', 'gotta go'],
+                response: "Thanks for chatting! 👋 If you need anything, Kniel is just a message away:\n\n📩 <a href='mailto:Knielfrancisgalvan11202002@gmail.com'>Knielfrancisgalvan11202002@gmail.com</a>\n📱 <a href='tel:+639685931163'>+63 968 593 1163</a>\n\nHave a great day!"
             }
         ];
 
-        faqData.forEach((item, index) => {
-            const btn = document.createElement('button');
-            btn.className = 'question-btn';
-            btn.textContent = item.question;
-            btn.onclick = () => displayAnswer(index);
-            questionsContainer.appendChild(btn);
-        });
+        const defaultResponse = "I appreciate your question! While I may not have a specific answer for that, Kniel would love to help you directly.\n\n📩 <a href='mailto:Knielfrancisgalvan11202002@gmail.com'>Email Kniel</a>\n📱 <a href='tel:+639685931163'>Call +63 968 593 1163</a>\n\nOr try asking about his <b>services</b>, <b>tools</b>, <b>pricing</b>, or <b>availability</b>!";
 
-        function displayAnswer(index) {
-            const item = faqData[index];
-            const answerMsg = document.createElement('div');
-            answerMsg.className = 'chat-message bot';
-            answerMsg.textContent = item.answer;
-            chatBody.appendChild(answerMsg);
-            chatBody.scrollTop = chatBody.scrollHeight;
+        const quickQuestions = [
+            "What services do you offer?",
+            "How much do you charge?",
+            "How do I get started?",
+            "What tools do you use?",
+            "Tell me about Kniel",
+            "Why should I choose you?"
+        ];
+
+        function addMessage(text, type) {
+            const msg = document.createElement('div');
+            msg.className = 'chat-msg ' + type;
+            msg.innerHTML = text.replace(/\n/g, '<br>');
+            chatMessages.appendChild(msg);
+            chatMessages.scrollTop = chatMessages.scrollHeight;
         }
 
+        function showTyping() {
+            const typing = document.createElement('div');
+            typing.className = 'typing-indicator';
+            typing.id = 'typingIndicator';
+            typing.innerHTML = '<span></span><span></span><span></span>';
+            chatMessages.appendChild(typing);
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+        }
+
+        function hideTyping() {
+            const typing = document.getElementById('typingIndicator');
+            if (typing) typing.remove();
+        }
+
+        function findResponse(input) {
+            const lower = input.toLowerCase();
+            let bestMatch = null;
+            let bestScore = 0;
+
+            for (const item of knowledge) {
+                let score = 0;
+                for (const kw of item.keywords) {
+                    if (lower.includes(kw)) {
+                        score += kw.length;
+                    }
+                }
+                if (score > bestScore) {
+                    bestScore = score;
+                    bestMatch = item;
+                }
+            }
+
+            return bestScore > 0 ? bestMatch.response : defaultResponse;
+        }
+
+        function renderQuickReplies() {
+            quickReplies.innerHTML = '';
+            quickQuestions.forEach(q => {
+                const btn = document.createElement('button');
+                btn.className = 'quick-reply-btn';
+                btn.textContent = q;
+                btn.onclick = () => sendMessage(q);
+                quickReplies.appendChild(btn);
+            });
+        }
+
+        function sendMessage(text) {
+            if (!text.trim()) return;
+            addMessage(text, 'user');
+            chatInput.value = '';
+            quickReplies.innerHTML = '';
+
+            showTyping();
+            const delay = 600 + Math.random() * 800;
+            setTimeout(() => {
+                hideTyping();
+                const response = findResponse(text);
+                addMessage(response, 'bot');
+                setTimeout(renderQuickReplies, 300);
+            }, delay);
+        }
+
+        // Event listeners
         chatToggle.addEventListener('click', () => {
-            chatContainer.classList.toggle('active');
+            const isOpen = chatWindow.classList.toggle('active');
+            chatToggle.classList.toggle('open', isOpen);
+            if (isOpen) {
+                notifDot.style.display = 'none';
+                chatInput.focus();
+            }
         });
 
         chatClose.addEventListener('click', () => {
-            chatContainer.classList.remove('active');
+            chatWindow.classList.remove('active');
+            chatToggle.classList.remove('open');
         });
+
+        chatSend.addEventListener('click', () => sendMessage(chatInput.value));
+
+        chatInput.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter') sendMessage(chatInput.value);
+        });
+
+        // Initial greeting
+        setTimeout(() => {
+            addMessage("Hi there! 👋 I'm Kniel's AI assistant. I can answer questions about his <b>services</b>, <b>experience</b>, <b>tools</b>, <b>pricing</b>, and more.\n\nHow can I help you today?", 'bot');
+            renderQuickReplies();
+        }, 500);
+    })();
     </script>
 
     <script>
