@@ -1,0 +1,6 @@
+{
+    "editor.allowVariableFontsInAccessibilityMode": true,
+    "python.analysis.extraPaths": [
+        "../../ai-desktop-bot"
+    ]
+}

@@ -1,0 +1,16 @@
+{
+  "name": "va-portfolio-website",
+  "version": "1.0.0",
+  "description": "A portfolio website for showcasing my virtual assistant services.",
+  "main": "src/index.html",
+  "scripts": {
+    "start": "live-server src",
+    "build": "echo 'Build step can be added here'"
+  },
+  "author": "Your Name",
+  "license": "MIT",
+  "dependencies": {},
+  "devDependencies": {
+    "live-server": "^1.2.1"
+  }
+}
