@@ -196,7 +196,6 @@ body::after {
 .hero {
     background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%);
     background-size: 400% 400%;
-    animation: gradientShift 15s ease infinite;
     color: white;
     padding: 120px 20px;
     text-align: center;
@@ -239,7 +238,6 @@ body::after {
     box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3),
                 inset 0 0 0 1px rgba(255, 255, 255, 0.2);
     transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1);
-    animation: float 3.5s ease-in-out infinite;
 }
 
 .profile-photo img:hover {
@@ -261,7 +259,7 @@ body::after {
 
 /* Shimmer overrides: combine slideIn + shimmer */
 .hero-title.shimmer-text {
-    animation: slideInUp 0.8s ease 0.2s both, shimmer 3s linear 1.2s infinite;
+    animation: slideInUp 0.8s ease 0.2s both;
     text-shadow: none;
 }
 
@@ -299,16 +297,13 @@ body::after {
     transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1);
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2),
                 inset 0 0 0 1px rgba(255, 255, 255, 0.3);
-    animation: pulseScale 2.5s ease-in-out infinite;
     letter-spacing: 0.3px;
     font-size: 0.98rem;
 }
 
 .cta-button:hover {
-    transform: translateY(-8px) scale(1.06);
-    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.3),
-                inset 0 0 0 1px rgba(255, 255, 255, 0.5);
-    animation: none;
+    transform: translateY(-3px);
+    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.25);
     background: #f8f9fa;
 }
 
@@ -338,7 +333,6 @@ main {
     border-radius: 50%;
     top: -80px;
     right: -80px;
-    animation: blobFloat 8s ease-in-out infinite;
     pointer-events: none;
 }
 
@@ -351,7 +345,6 @@ main {
     border-radius: 50%;
     bottom: -60px;
     left: -60px;
-    animation: blobFloat 10s ease-in-out infinite reverse;
     pointer-events: none;
 }
 
@@ -394,7 +387,6 @@ main {
     bottom: 0;
     background-image: radial-gradient(rgba(102, 126, 234, 0.12) 1px, transparent 1px);
     background-size: 30px 30px;
-    animation: dotShift 20s linear infinite;
     pointer-events: none;
 }
 
@@ -409,7 +401,6 @@ main {
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    animation: breathe 6s ease-in-out infinite;
     pointer-events: none;
 }
 
@@ -447,8 +438,8 @@ main {
 }
 
 .feature-card:hover {
-    transform: translateY(-18px);
-    box-shadow: 0 30px 60px rgba(102, 126, 234, 0.2),
+    transform: translateY(-5px);
+    box-shadow: 0 12px 30px rgba(102, 126, 234, 0.15),
                 inset 0 0 0 1px rgba(102, 126, 234, 0.2);
     border-top-color: #667eea;
 }
@@ -461,14 +452,11 @@ main {
     font-size: 3rem;
     margin-bottom: 1rem;
     display: inline-block;
-    animation: float 2s ease-in-out infinite;
     transition: all 0.3s ease;
 }
 
 .feature-card:hover .feature-icon {
-    font-size: 3.5rem;
-    animation: none;
-    transform: scale(1.2);
+    transform: scale(1.1);
 }
 
 .feature-card h3 {
@@ -595,7 +583,6 @@ h3 {
 footer {
     background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
     background-size: 400% 400%;
-    animation: gradientShift 12s ease infinite;
     color: white;
     text-align: center;
     padding: 3rem 0;
@@ -1020,12 +1007,10 @@ main ul li::before {
 
 /* Shimmer text effect */
 .shimmer-text {
-    background: linear-gradient(90deg, #667eea 0%, #764ba2 40%, #f093fb 60%, #667eea 100%);
-    background-size: 200% auto;
+    background: linear-gradient(90deg, #667eea 0%, #764ba2 60%);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
-    animation: shimmer 3s linear infinite;
 }
 
 /* Parallax-ready */
@@ -1083,10 +1068,6 @@ main ul li::before {
     transition: transform 0.4s ease;
 }
 
-/* Glow border on hover for feature cards */
-.feature-card:hover {
-    animation: borderGlow 2s ease-in-out infinite, glow 2s ease-in-out infinite;
-}
 
 /* Floating particles for hero */
 .hero .particle {
@@ -1127,7 +1108,6 @@ main ul li::before {
     height: 3px;
     background: linear-gradient(90deg, #667eea, #764ba2, #f093fb, #667eea);
     background-size: 300% 100%;
-    animation: gradientShift 6s ease infinite;
 }
 
 /* Floating morphing blob decoration */
@@ -1139,7 +1119,6 @@ main ul li::before {
     background: radial-gradient(circle, rgba(102, 126, 234, 0.06) 0%, rgba(118, 75, 162, 0.04) 50%, transparent 70%);
     top: -100px;
     left: -100px;
-    animation: morphBlob 12s ease-in-out infinite, blobFloat 15s ease-in-out infinite;
     pointer-events: none;
 }
 
@@ -1212,8 +1191,8 @@ main ul li::before {
 }
 
 .service-item:hover, .benefit-item:hover {
-    transform: translateX(16px) translateY(-10px);
-    box-shadow: 0 24px 60px rgba(102, 126, 234, 0.25),
+    transform: translateY(-4px);
+    box-shadow: 0 10px 30px rgba(102, 126, 234, 0.15),
                 inset 0 0 0 1px rgba(102, 126, 234, 0.2);
     border-color: #667eea;
 }
@@ -1233,14 +1212,12 @@ main ul li::before {
     display: flex;
     align-items: center;
     justify-content: center;
-    animation: float 3s ease-in-out infinite;
     margin-top: 0.2rem;
 }
 
 .service-item:hover span:first-child, .benefit-item:hover span:first-child {
-    animation: none;
-    transform: scale(1.3) rotate(12deg);
-    transition: transform 0.4s ease;
+    transform: scale(1.1);
+    transition: transform 0.2s ease;
 }
 
 .service-item span:last-child, .benefit-item span:last-child {
@@ -1323,8 +1300,8 @@ main ul li::before {
 }
 
 .contact-card:hover {
-    transform: translateY(-12px);
-    box-shadow: 0 24px 60px rgba(102, 126, 234, 0.25),
+    transform: translateY(-4px);
+    box-shadow: 0 10px 30px rgba(102, 126, 234, 0.15),
                 inset 0 0 0 1px rgba(102, 126, 234, 0.2);
     border-color: #667eea;
 }
@@ -1337,14 +1314,12 @@ main ul li::before {
     font-size: 3rem;
     margin-bottom: 1rem;
     display: inline-block;
-    animation: float 3s ease-in-out infinite;
     position: relative;
     z-index: 1;
 }
 
 .contact-card:hover .contact-icon {
-    animation: none;
-    transform: scale(1.2);
+    transform: scale(1.05);
 }
 
 .contact-link {
@@ -1370,7 +1345,6 @@ main ul li::before {
 }
 
 .contact-badge {
-    animation: pulseScale 2s ease-in-out infinite;
     position: relative;
     z-index: 1;
 }
@@ -1438,7 +1412,6 @@ main ul li::before {
     background: rgba(102, 126, 234, 0.08);
     top: 20%;
     left: -100px;
-    animation: blobFloat 18s ease-in-out infinite, morphBlob 15s ease-in-out infinite;
 }
 
 .bg-orb-2 {
@@ -1447,7 +1420,6 @@ main ul li::before {
     background: rgba(118, 75, 162, 0.06);
     top: 55%;
     right: -80px;
-    animation: blobFloat 22s ease-in-out infinite reverse, morphBlob 18s ease-in-out infinite reverse;
 }
 
 .bg-orb-3 {
@@ -1456,7 +1428,6 @@ main ul li::before {
     background: rgba(240, 147, 251, 0.05);
     bottom: 10%;
     left: 30%;
-    animation: blobFloat 20s ease-in-out infinite 3s, morphBlob 12s ease-in-out infinite;
 }
 
 /* ===== CURSOR GLOW ===== */
@@ -1496,10 +1467,6 @@ section:has(.service) {
     box-shadow: 0 0 10px rgba(102, 126, 234, 0.5);
 }
 
-/* ===== TOOL SECTION GLOW ===== */
-.tool-card:hover .tool-card-logo {
-    animation: orbGlow 2s ease-in-out infinite;
-}
 
 /* ===== TABLET (max-width: 768px) ===== */
 @media (max-width: 768px) {
@@ -1772,7 +1739,6 @@ section:has(.service) {
     height: 200px;
     background: radial-gradient(circle, rgba(102, 126, 234, 0.08) 0%, transparent 70%);
     border-radius: 50%;
-    animation: breathe 6s ease-in-out infinite;
 }
 
 .work-showcase-section::after {
@@ -1784,7 +1750,6 @@ section:has(.service) {
     height: 200px;
     background: radial-gradient(circle, rgba(118, 75, 162, 0.08) 0%, transparent 70%);
     border-radius: 50%;
-    animation: breathe 6s ease-in-out infinite 3s;
 }
 
 .work-showcase-section h2 {
@@ -1931,7 +1896,6 @@ section:has(.service) {
     border-radius: 50%;
     top: 25%;
     left: 5%;
-    animation: geoSpin 25s linear infinite;
 }
 
 .geo-diamond {
@@ -1940,7 +1904,6 @@ section:has(.service) {
     border: 2.5px solid #764ba2;
     top: 55%;
     right: 6%;
-    animation: geoDiamondFloat 12s ease-in-out infinite;
 }
 
 .geo-ring {
@@ -1952,7 +1915,6 @@ section:has(.service) {
     border-radius: 50%;
     bottom: 20%;
     left: 8%;
-    animation: geoSpin 18s linear infinite;
 }
 
 .geo-triangle {
@@ -1964,7 +1926,6 @@ section:has(.service) {
     opacity: 0.2;
     top: 40%;
     right: 4%;
-    animation: geoFloat 16s ease-in-out infinite 4s;
 }
 
 .geo-cross {
@@ -1972,7 +1933,6 @@ section:has(.service) {
     height: 35px;
     top: 75%;
     right: 12%;
-    animation: geoSpin 15s linear infinite;
 }
 
 .geo-cross::before,
@@ -2009,7 +1969,6 @@ section:has(.service) {
     pointer-events: none;
     z-index: 1;
     opacity: 0.2;
-    animation: geoFloat 13s ease-in-out infinite 3s;
 }
 
 .geo-hex::before,
@@ -2064,7 +2023,7 @@ section:has(.service) {
     color: #667eea;
     opacity: 0;
     display: block;
-    animation: sparkleAnim var(--sparkle-dur, 4s) ease-in-out infinite var(--sparkle-delay, 0s);
+    opacity: 0.3;
 }
 
 .sparkle-1 { top: 18%; left: 15%; --sparkle-size: 20px; --sparkle-dur: 3.5s; --sparkle-delay: 0s; }
@@ -2139,7 +2098,7 @@ section:has(.service) {
     z-index: 1;
     opacity: 0;
     box-shadow: 0 0 8px var(--dot-color, #667eea);
-    animation: dotDrift var(--dot-dur, 8s) ease-in-out infinite var(--dot-delay, 0s);
+    opacity: 0.3;
 }
 
 .accent-dot-1 { top: 30%; left: 3%; --dot-size: 8px; --dot-color: #667eea; --dot-dur: 7s; --dot-delay: 0s; }
@@ -2175,8 +2134,7 @@ section:has(.service) {
     height: 10px;
     border-radius: 5px;
     background: linear-gradient(90deg, #667eea, #764ba2);
-    animation: separatorGlide 6s ease-in-out infinite;
-    box-shadow: 0 0 20px rgba(102, 126, 234, 0.6), 0 0 40px rgba(118, 75, 162, 0.3);
+    box-shadow: 0 0 10px rgba(102, 126, 234, 0.4);
 }
 
 @keyframes separatorGlide {
@@ -2224,8 +2182,8 @@ section:has(.service)::before {
         rgba(102, 126, 234, 0.08) 58%,
         transparent 65%
     );
-    animation: cardShine 6s ease-in-out infinite;
     pointer-events: none;
+    display: none;
 }
 
 @keyframes cardShine {
@@ -2244,8 +2202,8 @@ section:has(.service)::before {
     border: 2px solid rgba(102, 126, 234, 0.15);
     border-radius: 50%;
     transform: translate(-50%, -50%);
-    animation: pulseRing 4s ease-out infinite;
     pointer-events: none;
+    display: none;
 }
 
 @keyframes pulseRing {
