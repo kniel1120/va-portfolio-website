@@ -347,17 +347,40 @@
                 <p style="text-align: center; color: #4a5568; margin-bottom: 3rem; font-size: 0.95rem;">Real-world AI workflows I've built to eliminate manual work and boost productivity</p>
 
                 <div class="detail-card" style="padding: 2.5rem;">
-                    <!-- Workflow Screenshot (click to expand) -->
-                    <div style="margin-bottom: 2.5rem; text-align: center;">
-                        <div style="position: relative; display: inline-block; cursor: zoom-in;" onclick="document.getElementById('n8nLightbox').style.display='flex'">
-                            <img src="images/n8n-gmail-labeling.png" alt="AI-Powered Gmail Auto-Labeling Workflow in n8n" style="width: 100%; max-width: 480px; border-radius: 12px; box-shadow: 0 8px 30px rgba(102, 126, 234, 0.2); border: 1px solid rgba(102, 126, 234, 0.15); display: block; transition: transform 0.2s ease;">
-                            <div style="position: absolute; bottom: 10px; right: 10px; background: rgba(0,0,0,0.55); color: white; font-size: 0.72rem; padding: 0.3rem 0.7rem; border-radius: 20px; pointer-events: none;">🔍 Click to expand</div>
+                    <!-- Workflow + Result Screenshots -->
+                    <div style="display: flex; align-items: center; gap: 1.5rem; margin-bottom: 2.5rem; flex-wrap: wrap; justify-content: center;">
+
+                        <!-- Workflow Screenshot -->
+                        <div style="flex: 1; min-width: 220px; max-width: 380px;">
+                            <p style="text-align:center; font-size:0.78rem; font-weight:600; color:#667eea; text-transform:uppercase; letter-spacing:0.05em; margin-bottom:0.6rem;">Workflow</p>
+                            <div style="position: relative; cursor: zoom-in;" onclick="document.getElementById('n8nLightbox').style.display='flex'">
+                                <img src="images/n8n-gmail-labeling.png" alt="n8n Workflow" style="width:100%; border-radius:12px; box-shadow:0 8px 30px rgba(102,126,234,0.2); border:1px solid rgba(102,126,234,0.15); display:block;">
+                                <div style="position:absolute; bottom:8px; right:8px; background:rgba(0,0,0,0.55); color:white; font-size:0.68rem; padding:0.25rem 0.6rem; border-radius:20px; pointer-events:none;">🔍 Click to expand</div>
+                            </div>
+                        </div>
+
+                        <!-- Arrow -->
+                        <div style="font-size: 2.5rem; color: #667eea; flex-shrink: 0;">→</div>
+
+                        <!-- Result Screenshot -->
+                        <div style="flex: 1; min-width: 220px; max-width: 380px;">
+                            <p style="text-align:center; font-size:0.78rem; font-weight:600; color:#764ba2; text-transform:uppercase; letter-spacing:0.05em; margin-bottom:0.6rem;">Result</p>
+                            <div style="position: relative; cursor: zoom-in;" onclick="document.getElementById('n8nResultLightbox').style.display='flex'">
+                                <img src="images/images-n8n-gmail-result.png" alt="Gmail Auto-Labeled Inbox Result" style="width:100%; border-radius:12px; box-shadow:0 8px 30px rgba(118,75,162,0.2); border:1px solid rgba(118,75,162,0.15); display:block;">
+                                <div style="position:absolute; bottom:8px; right:8px; background:rgba(0,0,0,0.55); color:white; font-size:0.68rem; padding:0.25rem 0.6rem; border-radius:20px; pointer-events:none;">🔍 Click to expand</div>
+                            </div>
                         </div>
                     </div>
 
-                    <!-- Lightbox -->
-                    <div id="n8nLightbox" onclick="this.style.display='none'" style="display:none; position:fixed; inset:0; background:rgba(0,0,0,0.85); z-index:99999; align-items:center; justify-content:center; cursor:zoom-out; padding: 20px;">
-                        <img src="images/n8n-gmail-labeling.png" alt="AI-Powered Gmail Auto-Labeling Workflow" style="max-width:95vw; max-height:90vh; border-radius:12px; box-shadow:0 20px 60px rgba(0,0,0,0.5);">
+                    <!-- Lightbox: Workflow -->
+                    <div id="n8nLightbox" onclick="this.style.display='none'" style="display:none; position:fixed; inset:0; background:rgba(0,0,0,0.85); z-index:99999; align-items:center; justify-content:center; cursor:zoom-out; padding:20px;">
+                        <img src="images/n8n-gmail-labeling.png" alt="n8n Workflow" style="max-width:95vw; max-height:90vh; border-radius:12px; box-shadow:0 20px 60px rgba(0,0,0,0.5);">
+                        <div style="position:fixed; top:20px; right:28px; color:white; font-size:2rem; cursor:pointer; line-height:1;">✕</div>
+                    </div>
+
+                    <!-- Lightbox: Result -->
+                    <div id="n8nResultLightbox" onclick="this.style.display='none'" style="display:none; position:fixed; inset:0; background:rgba(0,0,0,0.85); z-index:99999; align-items:center; justify-content:center; cursor:zoom-out; padding:20px;">
+                        <img src="images/images-n8n-gmail-result.png" alt="Gmail Auto-Labeled Inbox" style="max-width:95vw; max-height:90vh; border-radius:12px; box-shadow:0 20px 60px rgba(0,0,0,0.5);">
                         <div style="position:fixed; top:20px; right:28px; color:white; font-size:2rem; cursor:pointer; line-height:1;">✕</div>
                     </div>
 
