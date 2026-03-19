@@ -7,165 +7,165 @@
 	<link rel="stylesheet" href="../styles/main.css">
 	<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 	<style>
+		body {
+			background: #fafbfc;
+			font-family: 'Poppins', sans-serif;
+			color: #1a1f36;
+		}
+
 		.about-page {
 			min-height: 100vh;
-			background: linear-gradient(135deg, #f8f9ff 0%, #f0f2ff 100%);
-			padding: 60px 20px;
+			padding: 70px 24px 80px;
 		}
 
 		.about-container {
-			max-width: 860px;
+			max-width: 720px;
 			margin: 0 auto;
 		}
 
-		.about-header {
-			text-align: center;
-			margin-bottom: 50px;
-		}
-
-		.about-header h1 {
-			font-size: 2.8rem;
-			font-weight: 700;
-			background: linear-gradient(135deg, #667eea, #764ba2);
-			-webkit-background-clip: text;
-			-webkit-text-fill-color: transparent;
-			background-clip: text;
-			margin-bottom: 0.5rem;
-		}
-
-		.about-header .subtitle {
-			font-size: 1.05rem;
-			color: #6b7280;
-			font-weight: 400;
-		}
-
-		.about-card {
-			background: #fff;
-			border-radius: 20px;
-			padding: 40px;
-			margin-bottom: 28px;
-			box-shadow: 0 4px 24px rgba(102, 126, 234, 0.08);
-			border: 1px solid rgba(102, 126, 234, 0.1);
-		}
-
-		.about-card h2 {
-			font-size: 1.25rem;
-			font-weight: 700;
+		/* Back link */
+		.back-link {
+			display: inline-block;
 			color: #667eea;
-			margin-bottom: 18px;
-			display: flex;
-			align-items: center;
-			gap: 10px;
+			text-decoration: none;
+			font-size: 0.88rem;
+			font-weight: 500;
+			margin-bottom: 48px;
+			letter-spacing: 0.01em;
 		}
 
-		.about-card h2 .icon {
-			width: 32px;
-			height: 32px;
-			background: linear-gradient(135deg, #667eea, #764ba2);
-			border-radius: 8px;
-			display: flex;
-			align-items: center;
-			justify-content: center;
+		.back-link:hover {
+			text-decoration: underline;
+		}
+
+		/* Name + title block */
+		.about-intro {
+			margin-bottom: 52px;
+			padding-bottom: 40px;
+			border-bottom: 1px solid #e5e7eb;
+		}
+
+		.about-intro h1 {
+			font-size: 2.2rem;
+			font-weight: 700;
+			color: #1a1f36;
+			letter-spacing: -0.02em;
+			margin-bottom: 6px;
+		}
+
+		.about-intro .role {
 			font-size: 1rem;
-			flex-shrink: 0;
+			color: #667eea;
+			font-weight: 500;
+			margin-bottom: 28px;
 		}
 
-		.about-card p {
-			color: #374151;
-			line-height: 1.8;
+		.about-intro p {
 			font-size: 1rem;
-			margin-bottom: 14px;
+			color: #4b5563;
+			line-height: 1.85;
+			margin-bottom: 16px;
 		}
 
-		.about-card p:last-child {
+		.about-intro p:last-child {
 			margin-bottom: 0;
 		}
 
+		/* Section headings */
+		.about-section {
+			margin-bottom: 48px;
+		}
+
+		.about-section h2 {
+			font-size: 0.75rem;
+			font-weight: 600;
+			color: #9ca3af;
+			text-transform: uppercase;
+			letter-spacing: 0.12em;
+			margin-bottom: 24px;
+		}
+
+		/* Experience */
 		.experience-list {
+			list-style: none;
+			padding: 0;
+			margin: 0;
+		}
+
+		.experience-list li {
+			display: grid;
+			grid-template-columns: 220px 1fr;
+			gap: 24px;
+			padding: 20px 0;
+			border-bottom: 1px solid #f3f4f6;
+			align-items: start;
+		}
+
+		.experience-list li:first-child {
+			padding-top: 0;
+		}
+
+		.experience-list li:last-child {
+			border-bottom: none;
+			padding-bottom: 0;
+		}
+
+		.exp-role {
+			font-size: 0.92rem;
+			font-weight: 600;
+			color: #1a1f36;
+			line-height: 1.5;
+		}
+
+		.exp-desc {
+			font-size: 0.92rem;
+			color: #6b7280;
+			line-height: 1.7;
+		}
+
+		/* Why work with me */
+		.traits-list {
 			list-style: none;
 			padding: 0;
 			margin: 0;
 			display: flex;
 			flex-direction: column;
-			gap: 16px;
+			gap: 0;
 		}
 
-		.experience-list li {
-			display: flex;
-			gap: 14px;
-			align-items: flex-start;
-		}
-
-		.exp-dot {
-			width: 10px;
-			height: 10px;
-			background: linear-gradient(135deg, #667eea, #764ba2);
-			border-radius: 50%;
-			flex-shrink: 0;
-			margin-top: 6px;
-		}
-
-		.exp-content strong {
-			display: block;
-			color: #1a1f36;
-			font-weight: 600;
-			margin-bottom: 2px;
-		}
-
-		.exp-content span {
-			color: #6b7280;
-			font-size: 0.93rem;
-			line-height: 1.6;
-		}
-
-		.traits-grid {
-			display: grid;
-			grid-template-columns: 1fr 1fr;
-			gap: 14px;
-		}
-
-		.trait-item {
+		.traits-list li {
 			display: flex;
 			align-items: center;
-			gap: 10px;
-			padding: 12px 16px;
-			background: linear-gradient(135deg, #f8f9ff, #f0f2ff);
-			border-radius: 10px;
-			border: 1px solid rgba(102, 126, 234, 0.12);
-		}
-
-		.trait-check {
-			color: #667eea;
-			font-size: 1.1rem;
-			flex-shrink: 0;
-		}
-
-		.trait-item span {
-			color: #374151;
-			font-size: 0.93rem;
-			font-weight: 500;
-		}
-
-		.back-link {
-			display: inline-flex;
-			align-items: center;
-			gap: 8px;
-			color: #667eea;
-			text-decoration: none;
-			font-weight: 600;
+			gap: 14px;
+			padding: 14px 0;
+			border-bottom: 1px solid #f3f4f6;
 			font-size: 0.95rem;
-			margin-top: 10px;
-			transition: gap 0.2s ease;
+			color: #374151;
 		}
 
-		.back-link:hover {
-			gap: 12px;
+		.traits-list li:first-child {
+			padding-top: 0;
+		}
+
+		.traits-list li:last-child {
+			border-bottom: none;
+			padding-bottom: 0;
+		}
+
+		.trait-bar {
+			width: 3px;
+			height: 16px;
+			background: #667eea;
+			border-radius: 2px;
+			flex-shrink: 0;
 		}
 
 		@media (max-width: 600px) {
-			.about-header h1 { font-size: 2rem; }
-			.about-card { padding: 28px 22px; }
-			.traits-grid { grid-template-columns: 1fr; }
+			.about-intro h1 { font-size: 1.7rem; }
+			.experience-list li {
+				grid-template-columns: 1fr;
+				gap: 6px;
+			}
 		}
 	</style>
 </head>
@@ -173,95 +173,48 @@
 	<div class="about-page">
 		<div class="about-container">
 
-			<div class="about-header">
-				<h1>About Me</h1>
-				<p class="subtitle">Virtual Assistant · HR Support · Bookkeeping · Workflow Automation</p>
+			<a href="../index.html" class="back-link">&#8592; Back to Portfolio</a>
+
+			<div class="about-intro">
+				<h1>Kniel Francis Galvan</h1>
+				<p class="role">Virtual Assistant &nbsp;·&nbsp; HR Support &nbsp;·&nbsp; Bookkeeping &nbsp;·&nbsp; Workflow Automation</p>
+				<p>I've made it my mission to be the administrative backbone for busy executives, CEOs, and entrepreneurs who are tired of juggling admin tasks. With years of experience in high-paced business environments — including real estate and bookkeeping — I understand what leaders need: dependable, professional support that just works.</p>
+				<p>I specialize in working with people who are laser-focused on growing their business and leading teams, but are drowning in emails, scheduling, and admin work. That's where I come in.</p>
 			</div>
 
-			<!-- Who I Am -->
-			<div class="about-card">
-				<h2>
-					<div class="icon">👋</div>
-					Who I Am
-				</h2>
-				<p>I'm Kniel Francis Galvan, and I've made it my mission to be the administrative backbone for busy executives, CEOs, and entrepreneurs who are tired of juggling admin tasks.</p>
-				<p>With years of experience in high-paced business environments — including real estate and bookkeeping — I understand what leaders need: dependable, professional support that just works.</p>
-				<p>I specialize in working with people like you — individuals who are laser-focused on growing their business and leading teams, but are drowning in emails, scheduling, and admin work. That's where I come in.</p>
-			</div>
-
-			<!-- Professional Experience -->
-			<div class="about-card">
-				<h2>
-					<div class="icon">💼</div>
-					Professional Experience
-				</h2>
+			<div class="about-section">
+				<h2>Professional Experience</h2>
 				<ul class="experience-list">
 					<li>
-						<div class="exp-dot"></div>
-						<div class="exp-content">
-							<strong>Bookkeeping & Financial Admin</strong>
-							<span>Extensive experience in expense tracking, payroll, record-keeping, and financial organization for small businesses and entrepreneurs.</span>
-						</div>
+						<span class="exp-role">Bookkeeping &amp; Financial Admin</span>
+						<span class="exp-desc">Expense tracking, payroll processing, record-keeping, and financial organization for small businesses and entrepreneurs.</span>
 					</li>
 					<li>
-						<div class="exp-dot"></div>
-						<div class="exp-content">
-							<strong>Senior HR Assistant</strong>
-							<span>Provided HR support including recruitment, onboarding, employee records, and HRIS management.</span>
-						</div>
+						<span class="exp-role">Senior HR Assistant</span>
+						<span class="exp-desc">Recruitment, onboarding, employee records management, and HRIS administration across multiple platforms.</span>
 					</li>
 					<li>
-						<div class="exp-dot"></div>
-						<div class="exp-content">
-							<strong>Executive & Real Estate Admin Support</strong>
-							<span>Supporting business leaders and real estate professionals with admin tasks, listings, and client management.</span>
-						</div>
+						<span class="exp-role">Executive &amp; Real Estate Admin</span>
+						<span class="exp-desc">Supporting business leaders and real estate professionals with admin tasks, property listings, and client management.</span>
 					</li>
 					<li>
-						<div class="exp-dot"></div>
-						<div class="exp-content">
-							<strong>Workflow Automation (n8n)</strong>
-							<span>Building AI-powered automations for Gmail, WhatsApp, LinkedIn, and Slack to save hours of manual work each week.</span>
-						</div>
+						<span class="exp-role">Workflow Automation</span>
+						<span class="exp-desc">Building AI-powered automations using n8n for Gmail, WhatsApp, LinkedIn, and Slack — reducing manual workload and improving team efficiency.</span>
 					</li>
 				</ul>
 			</div>
 
-			<!-- Why Work With Me -->
-			<div class="about-card">
-				<h2>
-					<div class="icon">⭐</div>
-					Why Work With Me?
-				</h2>
-				<div class="traits-grid">
-					<div class="trait-item">
-						<span class="trait-check">✔</span>
-						<span>Detail-oriented and organized</span>
-					</div>
-					<div class="trait-item">
-						<span class="trait-check">✔</span>
-						<span>Proactive and solution-focused</span>
-					</div>
-					<div class="trait-item">
-						<span class="trait-check">✔</span>
-						<span>Tech-savvy and quick to adapt</span>
-					</div>
-					<div class="trait-item">
-						<span class="trait-check">✔</span>
-						<span>Confidential and professional</span>
-					</div>
-					<div class="trait-item">
-						<span class="trait-check">✔</span>
-						<span>AI & automation proficient</span>
-					</div>
-					<div class="trait-item">
-						<span class="trait-check">✔</span>
-						<span>Reliable across time zones</span>
-					</div>
-				</div>
+			<div class="about-section">
+				<h2>What I Bring to the Table</h2>
+				<ul class="traits-list">
+					<li><span class="trait-bar"></span> Detail-oriented and highly organized</li>
+					<li><span class="trait-bar"></span> Proactive and solution-focused</li>
+					<li><span class="trait-bar"></span> Tech-savvy with a quick learning curve</li>
+					<li><span class="trait-bar"></span> Discreet, confidential, and professional</li>
+					<li><span class="trait-bar"></span> Proficient in AI tools and workflow automation</li>
+					<li><span class="trait-bar"></span> Dependable across time zones</li>
+				</ul>
 			</div>
-
-			<a href="../index.html" class="back-link">← Back to Portfolio</a>
 
 		</div>
 	</div>
