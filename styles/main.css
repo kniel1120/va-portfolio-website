@@ -961,49 +961,6 @@ main ul li::before {
     }
 }
 
-/* Scroll-triggered animation classes */
-.scroll-hidden {
-    opacity: 0 !important;
-    transition: all 0.8s cubic-bezier(0.23, 1, 0.32, 1);
-}
-
-.scroll-show {
-    opacity: 1 !important;
-}
-
-.scroll-hidden.from-left {
-    transform: translateX(-80px);
-}
-
-.scroll-hidden.from-right {
-    transform: translateX(80px);
-}
-
-.scroll-hidden.from-bottom {
-    transform: translateY(60px);
-}
-
-.scroll-hidden.from-scale {
-    transform: scale(0.8);
-}
-
-.scroll-hidden.from-rotate {
-    transform: rotate(-5deg) scale(0.9);
-}
-
-.scroll-show.from-left,
-.scroll-show.from-right,
-.scroll-show.from-bottom {
-    transform: translateX(0) translateY(0);
-}
-
-.scroll-show.from-scale {
-    transform: scale(1);
-}
-
-.scroll-show.from-rotate {
-    transform: rotate(0) scale(1);
-}
 
 /* Shimmer text effect */
 .shimmer-text {
