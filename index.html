@@ -891,46 +891,55 @@
         });
     </script>
 
-    <!-- AI Chat Widget -->
+    <!-- =============================================
+         AI CHATBOT WIDGET
+         Floating Intercom-style chat assistant
+         ============================================= -->
     <style>
-        .chat-widget {
+        /* ---------- Chat Widget Core ---------- */
+        .ai-chat-widget {
             position: fixed;
-            bottom: 20px;
-            right: 20px;
-            z-index: 9999;
+            bottom: 24px;
+            right: 24px;
+            z-index: 10000;
             font-family: 'Poppins', sans-serif;
         }
 
-        .chat-toggle {
+        /* ---------- Toggle Button ---------- */
+        .ai-chat-toggle {
             width: 60px;
             height: 60px;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             border-radius: 50%;
+            border: none;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: #fff;
+            cursor: pointer;
+            box-shadow: 0 4px 24px rgba(102, 126, 234, 0.45);
             display: flex;
             align-items: center;
             justify-content: center;
-            cursor: pointer;
-            box-shadow: 0 4px 20px rgba(102, 126, 234, 0.4);
-            transition: all 0.3s ease;
-            border: none;
+            transition: transform 0.25s ease, box-shadow 0.25s ease;
             position: relative;
         }
-
-        .chat-toggle:hover {
-            transform: scale(1.1);
-            box-shadow: 0 8px 30px rgba(102, 126, 234, 0.5);
+        .ai-chat-toggle:hover {
+            transform: scale(1.08);
+            box-shadow: 0 6px 32px rgba(102, 126, 234, 0.55);
         }
-
-        .chat-toggle span {
-            font-size: 1.7rem;
-            transition: transform 0.3s ease;
+        .ai-chat-toggle svg {
+            width: 28px;
+            height: 28px;
+            transition: opacity 0.2s, transform 0.2s;
         }
-
-        .chat-toggle.open span {
-            transform: rotate(90deg);
+        .ai-chat-toggle .icon-close {
+            position: absolute;
+            opacity: 0;
+            transform: rotate(-90deg);
         }
+        .ai-chat-toggle.open .icon-chat  { opacity: 0; transform: rotate(90deg); }
+        .ai-chat-toggle.open .icon-close { opacity: 1; transform: rotate(0deg); }
 
-        .chat-toggle .notification-dot {
+        /* Notification pulse */
+        .ai-chat-badge {
             position: absolute;
             top: -2px;
             right: -2px;
@@ -938,491 +947,449 @@
             height: 14px;
             background: #ff4757;
             border-radius: 50%;
-            border: 2px solid white;
-            animation: pulse-dot 2s ease infinite;
+            border: 2px solid #fff;
+            animation: ai-pulse 2s ease infinite;
         }
-
-        @keyframes pulse-dot {
+        @keyframes ai-pulse {
             0%, 100% { transform: scale(1); }
-            50% { transform: scale(1.2); }
+            50% { transform: scale(1.3); }
         }
 
-        .chat-window {
+        /* ---------- Chat Window ---------- */
+        .ai-chat-window {
             position: absolute;
-            bottom: 75px;
+            bottom: 74px;
             right: 0;
             width: 380px;
             height: 520px;
             background: #fff;
             border-radius: 16px;
-            box-shadow: 0 10px 50px rgba(0, 0, 0, 0.18);
-            display: none;
+            box-shadow: 0 12px 48px rgba(0, 0, 0, 0.15);
+            display: flex;
             flex-direction: column;
             overflow: hidden;
             transform-origin: bottom right;
+            opacity: 0;
+            transform: scale(0.92) translateY(12px);
+            pointer-events: none;
+            transition: opacity 0.3s cubic-bezier(0.23, 1, 0.32, 1),
+                        transform 0.3s cubic-bezier(0.23, 1, 0.32, 1);
+        }
+        .ai-chat-window.open {
+            opacity: 1;
+            transform: scale(1) translateY(0);
+            pointer-events: auto;
         }
 
-        .chat-window.active {
-            display: flex;
-            animation: chatOpen 0.3s cubic-bezier(0.23, 1, 0.32, 1);
-        }
-
-        @keyframes chatOpen {
-            from { opacity: 0; transform: scale(0.9) translateY(10px); }
-            to { opacity: 1; transform: scale(1) translateY(0); }
-        }
-
-        .chat-window-header {
+        /* ---------- Header ---------- */
+        .ai-chat-header {
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            padding: 1.2rem 1.3rem;
+            padding: 16px 20px;
             display: flex;
             align-items: center;
-            gap: 0.8rem;
+            gap: 12px;
+            flex-shrink: 0;
         }
-
-        .chat-avatar {
-            width: 38px;
-            height: 38px;
+        .ai-chat-header-avatar {
+            width: 40px;
+            height: 40px;
             border-radius: 50%;
-            background: rgba(255,255,255,0.2);
+            background: rgba(255, 255, 255, 0.2);
             display: flex;
             align-items: center;
             justify-content: center;
             font-size: 1.2rem;
             flex-shrink: 0;
         }
-
-        .chat-header-info {
+        .ai-chat-header-info {
             flex: 1;
         }
-
-        .chat-header-info h4 {
-            color: white;
-            font-size: 0.95rem;
+        .ai-chat-header-info h4 {
             margin: 0;
+            color: #fff;
+            font-size: 0.95rem;
             font-weight: 600;
         }
-
-        .chat-header-info span {
-            color: rgba(255,255,255,0.8);
+        .ai-chat-header-info span {
+            color: rgba(255, 255, 255, 0.8);
             font-size: 0.72rem;
             display: flex;
             align-items: center;
-            gap: 4px;
+            gap: 5px;
         }
-
-        .chat-header-info .online-dot {
+        .ai-chat-online-dot {
             width: 7px;
             height: 7px;
             background: #2ecc71;
             border-radius: 50%;
             display: inline-block;
         }
-
-        .chat-close-btn {
-            color: white;
-            background: rgba(255,255,255,0.15);
+        .ai-chat-close {
+            background: rgba(255, 255, 255, 0.15);
             border: none;
-            width: 28px;
-            height: 28px;
+            color: #fff;
+            width: 30px;
+            height: 30px;
             border-radius: 50%;
             cursor: pointer;
-            font-size: 1rem;
+            font-size: 1.1rem;
             display: flex;
             align-items: center;
             justify-content: center;
             transition: background 0.2s;
         }
-
-        .chat-close-btn:hover {
-            background: rgba(255,255,255,0.3);
+        .ai-chat-close:hover {
+            background: rgba(255, 255, 255, 0.3);
         }
 
-        .chat-messages {
+        /* ---------- Messages ---------- */
+        .ai-chat-messages {
             flex: 1;
             overflow-y: auto;
-            padding: 1rem 1rem 0.5rem;
+            padding: 16px 16px 8px;
             display: flex;
             flex-direction: column;
-            gap: 0.6rem;
+            gap: 10px;
             scroll-behavior: smooth;
         }
-
-        .chat-messages::-webkit-scrollbar {
+        .ai-chat-messages::-webkit-scrollbar {
             width: 4px;
         }
-
-        .chat-messages::-webkit-scrollbar-thumb {
-            background: #ddd;
+        .ai-chat-messages::-webkit-scrollbar-thumb {
+            background: #d1d5db;
             border-radius: 4px;
         }
 
-        .chat-msg {
-            max-width: 85%;
-            padding: 0.65rem 0.9rem;
-            border-radius: 14px;
+        .ai-chat-msg {
+            max-width: 82%;
+            padding: 10px 14px;
+            border-radius: 16px;
             font-size: 0.84rem;
-            line-height: 1.55;
-            animation: msgIn 0.25s ease;
+            line-height: 1.6;
+            animation: ai-msg-in 0.25s ease forwards;
+            opacity: 0;
         }
-
-        @keyframes msgIn {
+        @keyframes ai-msg-in {
             from { opacity: 0; transform: translateY(8px); }
-            to { opacity: 1; transform: translateY(0); }
+            to   { opacity: 1; transform: translateY(0); }
         }
 
-        .chat-msg.bot {
-            background: #f0f2f5;
-            color: #1a1f36;
+        .ai-chat-msg.bot {
+            background: #f3f4f6;
+            color: #1f2937;
             align-self: flex-start;
             border-bottom-left-radius: 4px;
         }
-
-        .chat-msg.user {
+        .ai-chat-msg.user {
             background: linear-gradient(135deg, #667eea, #764ba2);
-            color: white;
+            color: #fff;
             align-self: flex-end;
             border-bottom-right-radius: 4px;
         }
 
-        .chat-msg.bot a {
-            color: #667eea;
-            font-weight: 600;
-            text-decoration: none;
-        }
-
-        .chat-msg.bot a:hover {
-            text-decoration: underline;
-        }
-
-        .typing-indicator {
+        /* Typing indicator */
+        .ai-chat-typing {
             display: flex;
-            gap: 4px;
-            padding: 0.65rem 0.9rem;
-            align-self: flex-start;
-            background: #f0f2f5;
-            border-radius: 14px;
+            gap: 5px;
+            padding: 10px 14px;
+            background: #f3f4f6;
+            border-radius: 16px;
             border-bottom-left-radius: 4px;
+            align-self: flex-start;
+            animation: ai-msg-in 0.25s ease forwards;
         }
-
-        .typing-indicator span {
+        .ai-chat-typing span {
             width: 7px;
             height: 7px;
-            background: #999;
+            background: #9ca3af;
             border-radius: 50%;
-            animation: typeBounce 1.3s ease infinite;
+            animation: ai-bounce 1.4s ease infinite;
         }
-
-        .typing-indicator span:nth-child(2) { animation-delay: 0.15s; }
-        .typing-indicator span:nth-child(3) { animation-delay: 0.3s; }
-
-        @keyframes typeBounce {
+        .ai-chat-typing span:nth-child(2) { animation-delay: 0.15s; }
+        .ai-chat-typing span:nth-child(3) { animation-delay: 0.3s; }
+        @keyframes ai-bounce {
             0%, 60%, 100% { transform: translateY(0); }
-            30% { transform: translateY(-5px); }
+            30% { transform: translateY(-6px); }
         }
 
-        .quick-replies {
+        /* ---------- Input Area ---------- */
+        .ai-chat-input-area {
+            padding: 12px;
+            border-top: 1px solid #e5e7eb;
             display: flex;
-            flex-wrap: wrap;
-            gap: 0.4rem;
-            padding: 0.5rem 1rem 0.3rem;
-        }
-
-        .quick-reply-btn {
-            background: #f0f2f5;
-            border: 1px solid #e0e3e8;
-            border-radius: 20px;
-            padding: 0.35rem 0.75rem;
-            font-size: 0.75rem;
-            cursor: pointer;
-            transition: all 0.2s ease;
-            font-family: 'Poppins', sans-serif;
-            color: #4a5568;
-        }
-
-        .quick-reply-btn:hover {
-            background: #667eea;
-            color: white;
-            border-color: #667eea;
-        }
-
-        .chat-input-area {
-            padding: 0.7rem;
-            border-top: 1px solid #eee;
-            display: flex;
-            gap: 0.5rem;
+            gap: 8px;
             background: #fafbfc;
+            flex-shrink: 0;
         }
-
-        .chat-input-area input {
+        .ai-chat-input {
             flex: 1;
-            padding: 0.6rem 1rem;
-            border: 1px solid #e0e3e8;
+            padding: 10px 16px;
+            border: 1px solid #e5e7eb;
             border-radius: 24px;
             font-size: 0.85rem;
             font-family: 'Poppins', sans-serif;
             outline: none;
             transition: border-color 0.2s;
         }
-
-        .chat-input-area input:focus {
+        .ai-chat-input:focus {
             border-color: #667eea;
         }
-
-        .chat-send-btn {
-            width: 38px;
-            height: 38px;
+        .ai-chat-input::placeholder {
+            color: #9ca3af;
+        }
+        .ai-chat-send {
+            width: 40px;
+            height: 40px;
             border-radius: 50%;
-            background: linear-gradient(135deg, #667eea, #764ba2);
             border: none;
-            color: white;
-            font-size: 1.1rem;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: #fff;
             cursor: pointer;
             display: flex;
             align-items: center;
             justify-content: center;
-            transition: transform 0.2s, box-shadow 0.2s;
+            flex-shrink: 0;
+            transition: transform 0.2s, opacity 0.2s;
+        }
+        .ai-chat-send:hover:not(:disabled) {
+            transform: scale(1.06);
+        }
+        .ai-chat-send:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+        .ai-chat-send svg {
+            width: 18px;
+            height: 18px;
+        }
+
+        /* ---------- Footer ---------- */
+        .ai-chat-footer {
+            text-align: center;
+            padding: 6px;
+            font-size: 0.62rem;
+            color: #b0b5bf;
+            background: #fafbfc;
             flex-shrink: 0;
         }
 
-        .chat-send-btn:hover {
-            transform: scale(1.05);
-            box-shadow: 0 3px 12px rgba(102, 126, 234, 0.4);
-        }
-
-        .chat-powered {
-            text-align: center;
-            padding: 0.3rem;
-            font-size: 0.65rem;
-            color: #aaa;
-            background: #fafbfc;
-        }
-
+        /* ---------- Mobile Responsive ---------- */
         @media (max-width: 480px) {
-            .chat-window {
-                width: calc(100vw - 20px);
+            .ai-chat-window {
+                width: calc(100vw - 16px);
                 height: calc(100vh - 100px);
-                right: -10px;
-                bottom: 70px;
-                border-radius: 12px;
+                right: -16px;
+                bottom: 72px;
+                border-radius: 14px;
+            }
+            .ai-chat-widget {
+                right: 16px;
+                bottom: 16px;
             }
         }
     </style>
 
-    <div class="chat-widget">
-        <button class="chat-toggle" id="chatToggle">
-            <span>💬</span>
-            <div class="notification-dot" id="notifDot"></div>
+    <!-- Chat Widget HTML -->
+    <div class="ai-chat-widget">
+        <!-- Toggle Button -->
+        <button class="ai-chat-toggle" id="aiChatToggle" aria-label="Open chat">
+            <svg class="icon-chat" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
+            </svg>
+            <svg class="icon-close" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>
+            </svg>
+            <div class="ai-chat-badge" id="aiChatBadge"></div>
         </button>
-        <div class="chat-window" id="chatWindow">
-            <div class="chat-window-header">
-                <div class="chat-avatar">🤖</div>
-                <div class="chat-header-info">
-                    <h4>Kniel's AI Assistant</h4>
-                    <span><span class="online-dot"></span> Online now</span>
+
+        <!-- Chat Window -->
+        <div class="ai-chat-window" id="aiChatWindow">
+            <!-- Header -->
+            <div class="ai-chat-header">
+                <div class="ai-chat-header-avatar">🤖</div>
+                <div class="ai-chat-header-info">
+                    <h4>AI Assistant</h4>
+                    <span><span class="ai-chat-online-dot"></span> Online now</span>
                 </div>
-                <button class="chat-close-btn" id="chatClose">✕</button>
+                <button class="ai-chat-close" id="aiChatClose" aria-label="Close chat">&times;</button>
             </div>
-            <div class="chat-messages" id="chatMessages"></div>
-            <div class="quick-replies" id="quickReplies"></div>
-            <div class="chat-input-area">
-                <input type="text" id="chatInput" placeholder="Ask me anything..." autocomplete="off">
-                <button class="chat-send-btn" id="chatSend">➤</button>
+            <!-- Messages -->
+            <div class="ai-chat-messages" id="aiChatMessages"></div>
+            <!-- Input -->
+            <div class="ai-chat-input-area">
+                <input type="text" class="ai-chat-input" id="aiChatInput" placeholder="Type a message..." autocomplete="off">
+                <button class="ai-chat-send" id="aiChatSend" aria-label="Send message">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/>
+                    </svg>
+                </button>
             </div>
-            <div class="chat-powered">AI-Powered Assistant</div>
+            <div class="ai-chat-footer">Powered by AI</div>
         </div>
     </div>
 
+    <!-- Chat Widget JavaScript -->
     <script>
-    (function() {
-        const chatToggle = document.getElementById('chatToggle');
-        const chatWindow = document.getElementById('chatWindow');
-        const chatClose = document.getElementById('chatClose');
-        const chatMessages = document.getElementById('chatMessages');
-        const chatInput = document.getElementById('chatInput');
-        const chatSend = document.getElementById('chatSend');
-        const quickReplies = document.getElementById('quickReplies');
-        const notifDot = document.getElementById('notifDot');
+    (function () {
+        // =============================================
+        // AI RESPONSE FUNCTION
+        // =============================================
+        // ** MOCK MODE — Replace ONLY the body of this
+        //    function to connect to n8n webhook later **
+        //
+        // Future n8n integration:
+        //   const res = await fetch("YOUR_N8N_WEBHOOK_URL", {
+        //       method: "POST",
+        //       headers: { "Content-Type": "application/json" },
+        //       body: JSON.stringify({ message })
+        //   });
+        //   const data = await res.json();
+        //   return data.reply;
+        // =============================================
+        async function getAIResponse(message) {
+            // Simulate network delay
+            await new Promise(r => setTimeout(r, 800 + Math.random() * 600));
 
-        // Knowledge base
-        const knowledge = [
-            {
-                keywords: ['service', 'offer', 'do', 'help', 'provide', 'what do you', 'what can', 'work'],
-                response: "Kniel offers a full range of services:\n\n⚡ <b>Workflow Automation (n8n, AI)</b>\n🧑‍💼 <b>Senior HR Assistant</b>\n📒 <b>Bookkeeping</b>\n🏠 <b>Real Estate Admin Support</b>\n📧 <b>Email & Calendar Management</b>\n📱 <b>Social Media & Brand Management</b>\n👥 <b>Customer & Client Relationship Management</b>\n📊 <b>Data Organization & Reporting</b>\n✍️ <b>Content & Communications</b>\n🎯 <b>Project & Team Coordination</b>\n\nWould you like details on any specific service?"
-            },
-            {
-                keywords: ['price', 'cost', 'rate', 'charge', 'much', 'fee', 'budget', 'afford', 'package', 'pricing'],
-                response: "For pricing details, please reach out directly to discuss your specific needs:\n\n📩 <b>Email:</b> <a href='mailto:Knielfrancisgalvan11202002@gmail.com'>Knielfrancisgalvan11202002@gmail.com</a>\n📱 <b>Phone:</b> <a href='tel:+639685931163'>+63 968 593 1163</a>\n\nKniel offers flexible packages tailored to your requirements. Get in touch for a free consultation!"
-            },
-            {
-                keywords: ['contact', 'reach', 'email', 'phone', 'call', 'message', 'touch', 'hire', 'book', 'schedule'],
-                response: "You can reach Kniel through:\n\n📩 <b>Email:</b> <a href='mailto:Knielfrancisgalvan11202002@gmail.com'>Knielfrancisgalvan11202002@gmail.com</a>\n📱 <b>Phone:</b> <a href='tel:+639685931163'>+63 968 593 1163</a>\n⏱️ <b>Response time:</b> Within 24 hours\n🕐 <b>Hours:</b> Asia/Manila timezone\n\nFeel free to reach out anytime!"
-            },
-            {
-                keywords: ['avail', 'time', 'timezone', 'hour', 'when', 'schedule', 'free', 'busy'],
-                response: "Kniel is available during standard business hours in the <b>Asia/Manila timezone</b>. He's flexible and can adjust to your schedule when needed.\n\n⏱️ Average response time is <b>within 24 hours</b>. If he doesn't have other active projects, he's available to start right away!"
-            },
-            {
-                keywords: ['about', 'who', 'tell me', 'background', 'experience', 'kniel', 'himself'],
-                response: "Kniel Francis Galvan is a <b>Virtual Assistant, HR professional, and AI Automation Builder</b> who helps businesses run smarter.\n\nHe brings:\n🧑‍💼 Senior HR Assistant experience\n📒 Bookkeeping & financial admin\n🏠 Real estate admin support\n⚡ AI-powered n8n workflow automation\n🔍 Strong attention to detail\n🚀 Proactive, solution-focused approach\n🔐 Full confidentiality & professionalism\n💻 25+ tools including GPT-4o, DALL·E 3, Slack, LinkedIn API"
-            },
-            {
-                keywords: ['tool', 'software', 'tech', 'platform', 'app', 'use', 'program', 'stack'],
-                response: "Kniel is proficient in 25+ tools including:\n\n⚡ n8n, OpenAI GPT-4o, DALL·E 3, Claude\n📧 Gmail, Google Calendar, Docs, Sheets\n📋 Asana, Trello, Monday.com, Notion\n💬 Slack, Telegram, WhatsApp (Meta API)\n🎨 Canva, CapCut\n📣 Meta, Instagram, TikTok, LinkedIn\n📬 Mailchimp, HubSpot\n💻 VS Code, Excel, Word, PowerPoint\n📹 Zoom, Calendly\n🏢 Teamtailor, Indeed\n\nIf there's a tool you use, he can learn it fast!"
-            },
-            {
-                keywords: ['automation', 'n8n', 'workflow', 'automate', 'bot', 'ai agent', 'integrate'],
-                response: "Kniel builds intelligent automations using <b>n8n</b> and AI:\n\n🤖 <b>Gmail Auto-Labeling</b> — AI categorizes your inbox automatically\n💬 <b>WhatsApp AI Assistant</b> — conversational bot with calendar integration\n📅 <b>LinkedIn Content Automation</b> — GPT-4o + DALL·E 3 generates and posts content daily\n📊 <b>Slack Request Management</b> — AI-powered internal request processing\n\nHe can build custom automations tailored to your specific business needs. <a href='mailto:Knielfrancisgalvan11202002@gmail.com'>Get in touch</a> to discuss!"
-            },
-            {
-                keywords: ['email', 'inbox', 'calendar', 'scheduling', 'appointment'],
-                response: "Kniel excels at <b>Email & Calendar Management</b>:\n\n✅ Inbox organization & prioritization\n✅ Appointment scheduling\n✅ Follow-up management\n✅ Calendar coordination\n\nNever miss an important meeting or email again!"
-            },
-            {
-                keywords: ['social media', 'content', 'post', 'instagram', 'tiktok', 'facebook', 'brand', 'marketing'],
-                response: "Kniel handles <b>Social Media & Brand Management</b>:\n\n📱 Content creation & scheduling\n📊 Platform management (IG, TikTok, FB, LinkedIn)\n✍️ Copywriting & captions\n📈 Engagement & community management\n🎨 Visual content with Canva & CapCut\n\nMaintain your professional presence without the time investment!"
-            },
-            {
-                keywords: ['data', 'spreadsheet', 'report', 'excel', 'sheet', 'entry', 'organize'],
-                response: "Kniel provides <b>Data Organization & Reporting</b>:\n\n📊 Accurate data entry & cleanup\n📈 Spreadsheet management (Excel, Google Sheets)\n📋 Business reporting & dashboards\n🔍 Data analysis & insights\n\nGet clear insights at a glance!"
-            },
-            {
-                keywords: ['project', 'team', 'coordination', 'manage', 'task', 'asana', 'trello', 'monday'],
-                response: "Kniel specializes in <b>Project & Team Coordination</b>:\n\n🎯 Task tracking & deadline management\n👥 Team communication & alignment\n📋 Using Asana, Trello, Monday.com, Notion\n📊 Progress reporting\n\nKeep projects on track and teams aligned!"
-            },
-            {
-                keywords: ['testimonial', 'review', 'client', 'feedback', 'say', 'recommend'],
-                response: "Here's what clients say about Kniel:\n\n⭐ <i>\"Having Kniel handle my admin work freed me up to focus on strategy. Pure productivity gain.\"</i> — CEO, Tech Startup\n\n⭐ <i>\"Kniel is incredibly organized and proactive. He anticipates what I need.\"</i> — Founder, E-commerce\n\n⭐ <i>\"My inbox is finally under control. Game-changer.\"</i> — Executive Director\n\n⭐ <i>\"He gave me back 15+ hours per week.\"</i> — Consultant & Coach"
-            },
-            {
-                keywords: ['start', 'begin', 'onboard', 'getting started', 'how to', 'process', 'work together', 'next step'],
-                response: "Getting started is easy! Here's the process:\n\n1️⃣ <b>Reach out</b> via email or phone\n2️⃣ <b>Quick consultation</b> to understand your needs\n3️⃣ <b>Custom proposal</b> tailored to your requirements\n4️⃣ <b>Start working</b> — fast onboarding!\n\n📩 <a href='mailto:Knielfrancisgalvan11202002@gmail.com'>Email Kniel now</a> to get started!"
-            },
-            {
-                keywords: ['why', 'different', 'better', 'choose', 'advantage', 'benefit', 'special'],
-                response: "Why choose Kniel?\n\n⚡ Fast and responsive\n🧠 Detail-oriented and organized\n📌 Follows systems and instructions\n🚀 Proactive and solution-focused\n🎯 Coachable and eager to improve\n⏰ Can save you <b>10+ hours per week</b>\n🤝 Seamless integration into your workflow\n\nHe doesn't just react — he <b>anticipates</b> your needs!"
-            },
-            {
-                keywords: ['hello', 'hi', 'hey', 'good morning', 'good afternoon', 'good evening', 'sup', 'yo'],
-                response: "Hey there! 👋 Welcome to Kniel's portfolio! I'm his AI assistant and I'm here to help you learn about his services.\n\nFeel free to ask me anything, or pick a topic below!"
-            },
-            {
-                keywords: ['thank', 'thanks', 'appreciate', 'great', 'awesome', 'nice', 'cool', 'perfect'],
-                response: "You're welcome! 😊 Is there anything else you'd like to know about Kniel's services? I'm happy to help!\n\nIf you're ready to get started, don't hesitate to <a href='mailto:Knielfrancisgalvan11202002@gmail.com'>reach out directly</a>!"
-            },
-            {
-                keywords: ['bye', 'goodbye', 'see you', 'later', 'gotta go'],
-                response: "Thanks for chatting! 👋 If you need anything, Kniel is just a message away:\n\n📩 <a href='mailto:Knielfrancisgalvan11202002@gmail.com'>Knielfrancisgalvan11202002@gmail.com</a>\n📱 <a href='tel:+639685931163'>+63 968 593 1163</a>\n\nHave a great day!"
+            const msg = message.toLowerCase();
+
+            // --- Pricing ---
+            if (msg.match(/price|cost|rate|charge|fee|budget|package|pricing|how much/)) {
+                return "Great question! Pricing depends on the scope of your project. I offer flexible packages — from hourly support to monthly retainers.\n\nWant me to set up a quick consultation so we can discuss your specific needs? 📩";
             }
-        ];
 
-        const defaultResponse = "I appreciate your question! While I may not have a specific answer for that, Kniel would love to help you directly.\n\n📩 <a href='mailto:Knielfrancisgalvan11202002@gmail.com'>Email Kniel</a>\n📱 <a href='tel:+639685931163'>Call +63 968 593 1163</a>\n\nOr try asking about his <b>services</b>, <b>tools</b>, <b>pricing</b>, or <b>availability</b>!";
+            // --- Booking ---
+            if (msg.match(/book|schedule|call|meeting|consult|appointment|calendar/)) {
+                return "I'd love to set up a time to chat! You can reach out directly:\n\n📩 Email: Knielfrancisgalvan11202002@gmail.com\n📱 Phone: +63 968 593 1163\n\nOr just let me know your preferred time and I'll help coordinate!";
+            }
 
-        const quickQuestions = [
-            "What services do you offer?",
-            "How much do you charge?",
-            "How do I get started?",
-            "What tools do you use?",
-            "Tell me about Kniel",
-            "Why should I choose you?"
-        ];
+            // --- Services ---
+            if (msg.match(/service|offer|do|help|provide|what can/)) {
+                return "Here's what I can help with:\n\n⚡ AI Workflow Automation (n8n)\n🧑‍💼 HR & Admin Support\n📒 Bookkeeping\n📧 Email & Calendar Management\n📱 Social Media Management\n📊 Data Organization & Reporting\n🎯 Project Coordination\n\nWant details on any of these?";
+            }
 
+            // --- Automation ---
+            if (msg.match(/automat|n8n|workflow|bot|ai agent|integrat/)) {
+                return "I specialize in building intelligent automations using n8n and AI:\n\n🤖 Smart inbox management\n💬 WhatsApp/Telegram AI bots\n📅 Auto-scheduling systems\n📊 Slack & CRM automations\n\nThese save clients 10+ hours per week. Want to explore what's possible for your business?";
+            }
+
+            // --- Tools ---
+            if (msg.match(/tool|software|tech|platform|stack|app|use/)) {
+                return "I work with 25+ tools including:\n\n⚡ n8n, GPT-4o, Claude, DALL·E 3\n📋 Asana, Trello, Monday.com, Notion\n📧 Gmail, Google Workspace\n💬 Slack, Telegram, WhatsApp\n🎨 Canva, CapCut\n📬 Mailchimp, HubSpot\n\nIf you use a tool I haven't listed, I learn fast!";
+            }
+
+            // --- About ---
+            if (msg.match(/about|who|tell me|background|experience|kniel/)) {
+                return "Kniel Francis Galvan is a Virtual Assistant, HR professional, and AI Automation Builder.\n\nHe's detail-oriented, proactive, and helps businesses run smarter through streamlined workflows and intelligent automation.\n\nWant to know more about specific experience or skills?";
+            }
+
+            // --- Contact ---
+            if (msg.match(/contact|reach|email|phone|hire/)) {
+                return "You can reach out anytime:\n\n📩 Knielfrancisgalvan11202002@gmail.com\n📱 +63 968 593 1163\n⏱️ Response within 24 hours\n\nLooking forward to hearing from you!";
+            }
+
+            // --- Greetings ---
+            if (msg.match(/^(hi|hello|hey|good morning|good afternoon|good evening|sup|yo)\b/)) {
+                return "Hey there! 👋 Welcome! I'm here to help you learn about our AI automation services, booking, and more.\n\nWhat would you like to know?";
+            }
+
+            // --- Thanks ---
+            if (msg.match(/thank|thanks|appreciate|great|awesome/)) {
+                return "You're welcome! 😊 Let me know if there's anything else I can help with.\n\nReady to get started? Just say the word!";
+            }
+
+            // --- Default ---
+            return "Thanks for your message! I'd love to help you with that.\n\nI can tell you about our services, pricing, tools, or help you book a consultation.\n\nWhat interests you most?";
+        }
+
+        // =============================================
+        // CHAT WIDGET LOGIC (no changes needed below)
+        // =============================================
+        const toggle   = document.getElementById('aiChatToggle');
+        const window_  = document.getElementById('aiChatWindow');
+        const closeBtn = document.getElementById('aiChatClose');
+        const messages = document.getElementById('aiChatMessages');
+        const input    = document.getElementById('aiChatInput');
+        const sendBtn  = document.getElementById('aiChatSend');
+        const badge    = document.getElementById('aiChatBadge');
+
+        let isOpen = false;
+        let isWaiting = false;
+        let hasOpened = false;
+
+        // --- Append a message bubble ---
         function addMessage(text, type) {
-            const msg = document.createElement('div');
-            msg.className = 'chat-msg ' + type;
-            msg.innerHTML = text.replace(/\n/g, '<br>');
-            chatMessages.appendChild(msg);
-            chatMessages.scrollTop = chatMessages.scrollHeight;
+            const div = document.createElement('div');
+            div.className = 'ai-chat-msg ' + type;
+            div.innerHTML = text.replace(/\n/g, '<br>');
+            messages.appendChild(div);
+            messages.scrollTop = messages.scrollHeight;
         }
 
+        // --- Typing indicator ---
         function showTyping() {
-            const typing = document.createElement('div');
-            typing.className = 'typing-indicator';
-            typing.id = 'typingIndicator';
-            typing.innerHTML = '<span></span><span></span><span></span>';
-            chatMessages.appendChild(typing);
-            chatMessages.scrollTop = chatMessages.scrollHeight;
+            const el = document.createElement('div');
+            el.className = 'ai-chat-typing';
+            el.id = 'aiTyping';
+            el.innerHTML = '<span></span><span></span><span></span>';
+            messages.appendChild(el);
+            messages.scrollTop = messages.scrollHeight;
         }
-
         function hideTyping() {
-            const typing = document.getElementById('typingIndicator');
-            if (typing) typing.remove();
+            const el = document.getElementById('aiTyping');
+            if (el) el.remove();
         }
 
-        function findResponse(input) {
-            const lower = input.toLowerCase();
-            let bestMatch = null;
-            let bestScore = 0;
+        // --- Send message flow ---
+        async function handleSend() {
+            const text = input.value.trim();
+            if (!text || isWaiting) return;
 
-            for (const item of knowledge) {
-                let score = 0;
-                for (const kw of item.keywords) {
-                    if (lower.includes(kw)) {
-                        score += kw.length;
-                    }
-                }
-                if (score > bestScore) {
-                    bestScore = score;
-                    bestMatch = item;
-                }
-            }
-
-            return bestScore > 0 ? bestMatch.response : defaultResponse;
-        }
-
-        function renderQuickReplies() {
-            quickReplies.innerHTML = '';
-            quickQuestions.forEach(q => {
-                const btn = document.createElement('button');
-                btn.className = 'quick-reply-btn';
-                btn.textContent = q;
-                btn.onclick = () => sendMessage(q);
-                quickReplies.appendChild(btn);
-            });
-        }
-
-        function sendMessage(text) {
-            if (!text.trim()) return;
             addMessage(text, 'user');
-            chatInput.value = '';
-            quickReplies.innerHTML = '';
-
+            input.value = '';
+            isWaiting = true;
+            sendBtn.disabled = true;
             showTyping();
-            const delay = 600 + Math.random() * 800;
-            setTimeout(() => {
+
+            try {
+                const reply = await getAIResponse(text);
                 hideTyping();
-                const response = findResponse(text);
-                addMessage(response, 'bot');
-                setTimeout(renderQuickReplies, 300);
-            }, delay);
+                addMessage(reply, 'bot');
+            } catch (err) {
+                hideTyping();
+                addMessage("Sorry, something went wrong. Please try again or contact us directly at Knielfrancisgalvan11202002@gmail.com", 'bot');
+            }
+
+            isWaiting = false;
+            sendBtn.disabled = false;
+            input.focus();
         }
 
-        // Event listeners
-        chatToggle.addEventListener('click', () => {
-            const isOpen = chatWindow.classList.toggle('active');
-            chatToggle.classList.toggle('open', isOpen);
-            if (isOpen) {
-                notifDot.style.display = 'none';
-                chatInput.focus();
+        // --- Open / Close ---
+        function openChat() {
+            isOpen = true;
+            window_.classList.add('open');
+            toggle.classList.add('open');
+            badge.style.display = 'none';
+            input.focus();
+
+            if (!hasOpened) {
+                hasOpened = true;
+                addMessage("Hi! 👋 I'm your AI assistant. How can I help you today?", 'bot');
             }
+        }
+        function closeChat() {
+            isOpen = false;
+            window_.classList.remove('open');
+            toggle.classList.remove('open');
+        }
+
+        // --- Event Listeners ---
+        toggle.addEventListener('click', () => isOpen ? closeChat() : openChat());
+        closeBtn.addEventListener('click', closeChat);
+        sendBtn.addEventListener('click', handleSend);
+        input.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter') handleSend();
         });
-
-        chatClose.addEventListener('click', () => {
-            chatWindow.classList.remove('active');
-            chatToggle.classList.remove('open');
-        });
-
-        chatSend.addEventListener('click', () => sendMessage(chatInput.value));
-
-        chatInput.addEventListener('keydown', (e) => {
-            if (e.key === 'Enter') sendMessage(chatInput.value);
-        });
-
-        // Initial greeting
-        setTimeout(() => {
-            addMessage("Hi there! 👋 I'm Kniel's AI assistant. I can answer questions about his <b>services</b>, <b>experience</b>, <b>tools</b>, <b>pricing</b>, and more.\n\nHow can I help you today?", 'bot');
-            renderQuickReplies();
-        }, 500);
     })();
     </script>
 
