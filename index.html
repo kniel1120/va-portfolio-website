@@ -112,7 +112,10 @@
   /* interactions: let clicks reach the 3D scene except on real controls */
   main,main section,footer{pointer-events:none}
   footer a{pointer-events:auto}
-  main a,main button,main input,.card,.chips span,.btns,summary{pointer-events:auto}
+  main a,main button,main input,.card,.chips span,.btns,summary,.office-frame{pointer-events:auto}
+  .office-frame{position:relative;margin-top:26px;border:1px solid var(--line);border-radius:18px;overflow:hidden;aspect-ratio:16/10;max-height:82vh;background:#0e1116;box-shadow:0 30px 80px -30px rgba(124,92,255,.45)}
+  .office-frame iframe{position:absolute;inset:0;width:100%;height:100%;border:0;display:block}
+  @media (max-width:760px){ .office-frame{aspect-ratio:3/4} }
   button.btn{font:inherit;color:inherit;cursor:pointer}
   .hint{margin-top:14px;font-size:.85rem;color:var(--cyan);display:flex;align-items:center;gap:8px}
   .hint b{color:var(--ink);font-weight:600}
@@ -196,6 +199,7 @@
   <a class="brand" href="#hero">Kniel Galvan</a>
   <div class="links">
     <a href="#services">Services</a>
+    <a href="#agents">AI Agents</a>
     <a href="#projects">Projects</a>
     <a href="#history">Experience</a>
     <a href="#contact">Contact</a>
@@ -229,6 +233,18 @@
         <div class="card rv"><div class="icon">🏠</div><h3>Real Estate Admin</h3><p>Listings, client management and admin for real estate professionals and teams.</p></div>
       </div>
       <p class="also rv">Also: social media &amp; brand management · client relationship care · content &amp; newsletters · project &amp; team coordination.</p>
+    </div>
+  </section>
+
+  <section id="agents" class="section">
+    <div class="wrap">
+      <div class="eyebrow rv">Live demo</div>
+      <h2 class="rv">My AI agents at <span class="grad">work</span></h2>
+      <p class="lead rv">A 3D office where every automation is a robot. When a run starts, its robot walks to its desk and works. It celebrates when the run is done, raises an alarm when something fails, and joins team meetings in between. This demo shows example activity, not real data.</p>
+      <div class="office-frame rv">
+        <iframe src="agent-office/index.html" title="AI agent office, interactive 3D demo" loading="lazy" allow="fullscreen"></iframe>
+      </div>
+      <p class="also rv"><a href="agent-office/index.html" target="_blank" rel="noopener">Open the office full screen ↗</a> · Click a robot to see what it's doing.</p>
     </div>
   </section>
 
@@ -304,7 +320,7 @@
     </div>
   </section>
 </main>
-<footer>© Kniel Francis Galvan · <details class="credits"><summary>Credits</summary><span>Laptop model: <a href="https://sketchfab.com/3d-models/asus-rog-strix-scar-17-2023-g733-gaming-laptop-51eca7b2e5884c4087f3499e523d5184" target="_blank" rel="noopener">“Asus ROG Strix Scar 17 (2023) G733”</a> by Ranaha Creative Studio, <a href="https://creativecommons.org/licenses/by/4.0/" target="_blank" rel="noopener">CC BY 4.0</a></span></details></footer>
+<footer>© Kniel Francis Galvan · <details class="credits"><summary>Credits</summary><span>Laptop model: <a href="https://sketchfab.com/3d-models/asus-rog-strix-scar-17-2023-g733-gaming-laptop-51eca7b2e5884c4087f3499e523d5184" target="_blank" rel="noopener">“Asus ROG Strix Scar 17 (2023) G733”</a> by Ranaha Creative Studio, <a href="https://creativecommons.org/licenses/by/4.0/" target="_blank" rel="noopener">CC BY 4.0</a> · Agent office models: <a href="https://sketchfab.com/3d-models/isometric-office-d31464eed8044190911b221648aca432" target="_blank" rel="noopener">“Isometric office”</a> by Companion_Cube, <a href="https://sketchfab.com/3d-models/cute-robots-low-poly-rigged-animated-c9938d49af2d4bf7abe40e366d37a5d0" target="_blank" rel="noopener">“Cute Robots”</a> by m1ch3lang3lo, <a href="https://sketchfab.com/3d-models/animated-humanoid-robot-8993602ca91f4c499e690e5dae19f978" target="_blank" rel="noopener">“Animated humanoid robot”</a> by pinguinoconpulgares, <a href="https://sketchfab.com/3d-models/nimbus-characterrig-5ce9a8c9cbbe498695542c4565ad356b" target="_blank" rel="noopener">“Nimbus”</a> by Dudzy, all <a href="https://creativecommons.org/licenses/by/4.0/" target="_blank" rel="noopener">CC BY 4.0</a></span></details></footer>
 
 <button id="soundBtn" type="button" aria-pressed="false" aria-label="Turn sound on">
   <svg class="off" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 5 6 9H2v6h4l5 4V5z"/><path d="m23 9-6 6M17 9l6 6"/></svg>
