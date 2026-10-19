@@ -165,7 +165,26 @@
   @media (max-width:640px){
     nav .links a:not(:last-child){display:none}
     #dive{height:180vh}
+    #hero{padding-bottom:92px} /* room for the sound + pumpkin buttons */
+    #hero h1{margin:10px 0 12px}
+    #hero p{font-size:.98rem}
+    .hint{font-size:.8rem}
+    footer{padding-bottom:84px} /* keep the credits line above the round buttons */
   }
+  /* phone terminal: a real panel to type in (the 3D screen mirrors it) */
+  #mterm{position:fixed;left:8px;right:8px;bottom:8px;z-index:40;height:min(64vh,540px);border-radius:18px;background:#070a18;
+    border:1px solid var(--line);box-shadow:0 24px 60px rgba(0,0,0,.6);display:none;flex-direction:column;overflow:hidden;
+    font:13px/1.55 ui-monospace,Consolas,"Courier New",monospace}
+  body.mterm-open #mterm{display:flex}
+  .mterm-top{display:flex;align-items:center;gap:6px;padding:10px 12px;background:#0f1430;color:#8f98c9;font-family:Inter,sans-serif;font-size:.8rem}
+  .mterm-top i{width:10px;height:10px;border-radius:50%;display:inline-block}
+  .mterm-top button{margin-left:auto;width:30px;height:30px;border-radius:50%;border:1px solid var(--line);background:transparent;color:var(--ink);font-size:1rem}
+  #mtermOut{flex:1;overflow-y:auto;padding:10px 12px;white-space:pre-wrap;word-break:break-word;overscroll-behavior:contain}
+  .mterm-chips{display:flex;gap:6px;overflow-x:auto;padding:6px 10px 0;scrollbar-width:none}
+  .mterm-chips::-webkit-scrollbar{display:none}
+  .mterm-chips button{flex:none;font:inherit;font-size:12px;padding:5px 10px;border-radius:999px;border:1px solid var(--line);background:rgba(255,255,255,.05);color:#22d3ee}
+  #mtermForm{display:flex;align-items:center;gap:6px;padding:8px 12px 12px;color:#22d3ee}
+  #mtermInput{flex:1;min-width:0;font:inherit;font-size:16px;background:transparent;border:0;border-bottom:1px solid var(--line);color:#22d3ee;outline:none;padding:4px 0}
   @media (prefers-reduced-motion:reduce){.rv{transition:none;opacity:1;transform:none}}
 </style>
 </head>
@@ -295,6 +314,12 @@
 <div id="toast" role="status" aria-live="polite"></div>
 <input id="termInput" type="text" autocomplete="off" autocapitalize="off" spellcheck="false" aria-label="Terminal input">
 <canvas id="cursor" aria-hidden="true"></canvas>
+<div id="mterm" role="dialog" aria-label="Terminal" data-lenis-prevent>
+  <div class="mterm-top"><i style="background:#f87171"></i><i style="background:#fbbf24"></i><i style="background:#34d399"></i>&nbsp;kniel@portfolio: ~<button type="button" id="mtermClose" aria-label="Close terminal">×</button></div>
+  <div id="mtermOut" aria-live="polite"></div>
+  <div class="mterm-chips" id="mtermChips"></div>
+  <form id="mtermForm"><span>$</span><input id="mtermInput" autocomplete="off" autocapitalize="off" spellcheck="false" aria-label="Command" placeholder="type a command…"></form>
+</div>
 <canvas id="scare3d" aria-hidden="true"></canvas>
 <canvas id="scare" aria-hidden="true"></canvas>
 <aside id="chat" aria-label="Chat with Kniel's assistant" aria-hidden="true" data-lenis-prevent>
@@ -714,7 +739,7 @@
     if (cmd === 'party') { out('🕺'); dance(); return; }
     if (cmd === 'boo') {
       jumpScare();
-      setTimeout(() => out(sfx.on ? '👻 Got you! Did I scare you?' : '👻 Got you! Turn on sound 🔈 and try again for the full effect.'), 1500);
+      setTimeout(() => { out(sfx.on ? '👻 Got you! Did I scare you?' : '👻 Got you! Turn on sound 🔈 and try again for the full effect.'); renderMterm(); }, 1500);
       return;
     }
     if (cmd === 'trick') { out('🦇 Bats released!'); spook(); return; }
@@ -723,12 +748,30 @@
     if (TERM[cmd]) return out(TERM[cmd]);
     out(`command not found: ${cmd}. Type 'help'.`);
   }
+  // phones get a real panel to type into; the 3D laptop screen keeps mirroring it
+  const mterm = { out: document.getElementById('mtermOut'), input: document.getElementById('mtermInput'), form: document.getElementById('mtermForm') };
+  const smallScreen = () => innerWidth < 700 || innerWidth / innerHeight < .8;
+  function renderMterm() {
+    mterm.out.textContent = '';
+    term.lines.forEach(l => { const d = document.createElement('div'); d.textContent = l.t; d.style.color = l.c; mterm.out.appendChild(d); });
+    mterm.out.scrollTop = mterm.out.scrollHeight;
+  }
+  ['help', 'whoami', 'projects', 'experience', 'hire', 'boo', 'clear'].forEach(c => {
+    const b = document.createElement('button'); b.type = 'button'; b.textContent = c;
+    b.addEventListener('click', () => { termRun(c); renderMterm(); sfx.click(); });
+    document.getElementById('mtermChips').appendChild(b);
+  });
+  mterm.form.addEventListener('submit', e => { e.preventDefault(); termRun(mterm.input.value); mterm.input.value = ''; term.input = ''; renderMterm(); sfx.click(); });
+  mterm.input.addEventListener('input', () => { term.input = mterm.input.value; sfx.key(); });
+  document.getElementById('mtermClose').addEventListener('click', () => closeTerm());
   function openTerm() {
     document.body.classList.add('term-open'); loadZombie();
     if (!term.open) { term.open = true; if (!term.lines.length) term.lines.push({ t: "Kniel OS 1.0. Type 'help' to see what I can do.", c: '#a78bfa' }); sfx.pop(); }
-    termInput.value = ''; term.input = ''; termInput.focus({ preventScroll: true });
+    term.input = '';
+    if (smallScreen()) { document.body.classList.add('mterm-open'); renderMterm(); mterm.input.value = ''; }
+    else { termInput.value = ''; termInput.focus({ preventScroll: true }); }
   }
-  function closeTerm() { term.open = false; termInput.blur(); document.body.classList.remove('term-open'); }
+  function closeTerm() { term.open = false; termInput.blur(); mterm.input.blur(); document.body.classList.remove('term-open', 'mterm-open'); }
   termInput.addEventListener('input', () => { term.input = termInput.value; sfx.key(); });
   termInput.addEventListener('keydown', e => {
     if (e.key === 'Enter') { e.preventDefault(); termRun(termInput.value); termInput.value = ''; term.input = ''; sfx.click(); }
@@ -1302,8 +1345,15 @@
   const L0 = new V3(0, 0.05, -0.3);
   let path, finPath;
 
+  const phoneBase = new THREE.Vector2(-2.45, .6);
   function layout() {
     const w = innerWidth, h = innerHeight; narrow = w / h < .8;
+    // on tall phone screens: laptop in the top half, props pulled in so they stay in view
+    L0.set(0, narrow ? -1.45 : screenPos.y * .35, -0.3);
+    const PP = narrow ? { mug: [1.55, 1.6], phone: [-1.35, 1.7], plant: [-1.8, -1.45], pump: [1.8, -1.45] }
+                      : { mug: [2.55, .6], phone: [-2.45, .6], plant: [-2.75, -1.1], pump: [2.4, -1.15] };
+    mug.position.set(PP.mug[0], 0, PP.mug[1]); plant.position.set(PP.plant[0], 0, PP.plant[1]); pumpkin.position.set(PP.pump[0], 0, PP.pump[1]);
+    phoneBase.set(PP.phone[0], PP.phone[1]); phonePick.position.set(PP.phone[0], .15, PP.phone[1]);
     renderer.setSize(w, h, false); camera.aspect = w / h; camera.updateProjectionMatrix();
     uniforms.uAspect.value = w / h;
     S.set(0, 1.9, narrow ? 10.5 : 6.8);
@@ -1342,9 +1392,9 @@
     // finale: fly back out of the screen to the desk
     const F0 = screenPos.clone().addScaledVector(normal, .45);
     const Fm = screenPos.clone().addScaledVector(normal, 2.6).add(new V3(-1.1, .35, 0));
-    const F1 = S.clone().add(narrow ? new V3(0, 1.2, 3) : new V3(0, .9, 2.4));
+    const F1 = S.clone().add(narrow ? new V3(0, 2.2, 5.2) : new V3(0, .9, 2.4));
     finPath = new THREE.CatmullRomCurve3([F0, Fm, F1], false, 'centripetal');
-    finLook0.copy(screenPos); finLook1.copy(screenPos).add(new V3(0, narrow ? -2.2 : -1.5, 0));
+    finLook0.copy(screenPos); finLook1.copy(screenPos).add(new V3(0, narrow ? -4.4 : -1.5, 0));
   }
   let layoutQueued = false;
   const queueLayout = () => { if (!layoutQueued) { layoutQueued = true; requestAnimationFrame(() => { layoutQueued = false; layout(); }); } };
@@ -1386,7 +1436,7 @@
       const fe = easeOut(f);
       finPath.getPointAt(fe, camPos); look.copy(finLook0).lerp(finLook1, fe);
       // terminal open: glide up to the screen so it can be read
-      termZoom += ((term.open ? 1 : 0) - termZoom) * k(.08);
+      termZoom += ((term.open && !narrow ? 1 : 0) - termZoom) * k(.08);
       if (termZoom > .001) {
         const z = ease(termZoom);
         camPos.lerp(tmp.copy(screenPos).addScaledVector(normal, narrow ? 3.2 : 2.25), z); look.lerp(screenPos, z);
@@ -1460,7 +1510,7 @@
     // ----- phone lifts when its chat is open -----
     phoneLift += (phoneLiftTarget - phoneLift) * k(.1);
     const pl = ease(clamp(phoneLift, 0, 1));
-    phone.position.set(-2.45, pl * .75, .6 + pl * .6); phone.rotation.x = pl * 1.05;
+    phone.position.set(phoneBase.x, pl * .75, phoneBase.y + pl * .6); phone.rotation.x = pl * 1.05;
 
     // ----- what the cursor is over in 3D -----
     hover3d = false;
