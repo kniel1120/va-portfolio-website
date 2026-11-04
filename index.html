@@ -116,6 +116,21 @@
   .office-frame{position:relative;margin-top:26px;border:1px solid var(--line);border-radius:18px;overflow:hidden;aspect-ratio:16/10;max-height:82vh;background:#0e1116;box-shadow:0 30px 80px -30px rgba(124,92,255,.45)}
   .office-frame iframe{position:absolute;inset:0;width:100%;height:100%;border:0;display:block}
   @media (max-width:760px){ .office-frame{aspect-ratio:3/4} }
+  .reels{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:18px;margin-top:26px}
+  .reel{background:var(--card);border:1px solid var(--line);border-radius:22px;padding:10px;transition:border-color .3s}
+  .reel:hover{border-color:rgba(124,92,255,.55)}
+  .reel .screen{position:relative;aspect-ratio:9/16;border-radius:14px;overflow:hidden;background:#0e1116}
+  .reel video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block}
+  .reel .snd{position:absolute;right:10px;bottom:10px;z-index:2;border:0;border-radius:999px;padding:6px 12px;font:600 .75rem/1 inherit;color:#fff;background:rgba(7,11,20,.62);backdrop-filter:blur(6px);cursor:pointer}
+  .reel .play{position:absolute;left:50%;top:50%;z-index:2;width:68px;height:68px;margin:-34px 0 0 -34px;border:0;border-radius:50%;
+    background:rgba(7,11,20,.55);backdrop-filter:blur(6px);cursor:pointer;transition:opacity .25s,transform .25s}
+  .reel .play::before{content:"";position:absolute;left:27px;top:21px;border-style:solid;border-width:13px 0 13px 21px;border-color:transparent transparent transparent #fff}
+  .reel .screen.playing .play{opacity:0;transform:scale(.8);pointer-events:none}
+  .reel h3{font-size:1rem;margin:12px 4px 2px}
+  .reel p{margin:0 4px 6px;color:var(--muted);font-size:.85rem}
+  .reels .rv:nth-child(2){transition-delay:.08s}
+  .reels .rv:nth-child(3){transition-delay:.16s}
+  @media (max-width:640px){ .reels{grid-template-columns:1fr;max-width:360px;margin-left:auto;margin-right:auto} }
   button.btn{font:inherit;color:inherit;cursor:pointer}
   .hint{margin-top:14px;font-size:.85rem;color:var(--cyan);display:flex;align-items:center;gap:8px}
   .hint b{color:var(--ink);font-weight:600}
@@ -201,6 +216,7 @@
     <a href="#services">Services</a>
     <a href="#agents">AI Agents</a>
     <a href="#projects">Projects</a>
+    <a href="#edits">Edits</a>
     <a href="#history">Experience</a>
     <a href="#contact">Contact</a>
   </div>
@@ -263,6 +279,23 @@
         <div class="card rv"><h3>Slack Request Manager</h3><div class="tags"><span>n8n</span><span>OpenAI</span><span>Slack</span></div>
           <ul><li>Turns loose DMs into structured requests</li><li>Role-based authorisation checks</li><li>Audit trail and team notifications</li></ul></div>
       </div>
+    </div>
+  </section>
+
+  <section id="edits" class="section">
+    <div class="wrap">
+      <div class="eyebrow rv">Video editing</div>
+      <h2 class="rv">Short-form <span class="grad">edits</span></h2>
+      <p class="lead rv">Vertical spec ads I edited for TikTok, Reels and Shorts: real footage, cuts on the beat and animated captions. The brands are made up for practice.</p>
+      <div class="reels">
+        <div class="reel rv"><div class="screen"><video src="videos/hilom-iced-coffee.mp4" poster="videos/hilom-iced-coffee.webp" muted loop playsinline preload="none" aria-label="Iced coffee spec ad"></video><button class="play" type="button" aria-label="Play Iced coffee spec ad"></button><button class="snd" type="button">🔇 Sound</button></div>
+          <h3>Iced coffee</h3><p>Lo-fi, warm grade · 15 s</p></div>
+        <div class="reel rv"><div class="screen"><video src="videos/aliwa-serum.mp4" poster="videos/aliwa-serum.webp" muted loop playsinline preload="none" aria-label="Skincare serum spec ad"></video><button class="play" type="button" aria-label="Play Skincare serum spec ad"></button><button class="snd" type="button">🔇 Sound</button></div>
+          <h3>Skincare serum</h3><p>Soft, editorial type · 15 s</p></div>
+        <div class="reel rv"><div class="screen"><video src="videos/kalye-sneakers.mp4" poster="videos/kalye-sneakers.webp" muted loop playsinline preload="none" aria-label="Sneaker spec ad"></video><button class="play" type="button" aria-label="Play Sneaker spec ad"></button><button class="snd" type="button">🔇 Sound</button></div>
+          <h3>Sneakers</h3><p>Hip-hop, bold type · 16 s</p></div>
+      </div>
+      <p class="also rv">Footage: Pexels · Music: Mixkit</p>
     </div>
   </section>
 
@@ -363,6 +396,31 @@
   // ---------- reveal on scroll ----------
   const io = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } }), { threshold: .15 });
   document.querySelectorAll('.rv').forEach(el => io.observe(el));
+
+  // edits: muted autoplay while on screen (not with reduced motion), one reel with sound at a time
+  const reels = [...document.querySelectorAll('.reel video')];
+  const vio = new IntersectionObserver(es => es.forEach(e => {
+    const v = e.target;
+    if (e.isIntersecting && !reduce) { v.preload = 'auto'; v.play().catch(() => {}); }
+    else if (!e.isIntersecting) v.pause();
+  }), { threshold: .5 });
+  reels.forEach(v => {
+    vio.observe(v);
+    const btn = v.parentElement.querySelector('.snd');
+    const sync = () => { btn.textContent = v.muted ? '🔇 Sound' : '🔊 On'; };
+    btn.addEventListener('click', () => {
+      const on = v.muted;
+      reels.forEach(o => { o.muted = true; o.parentElement.querySelector('.snd').textContent = '🔇 Sound'; });
+      v.muted = !on;
+      if (on) { v.currentTime = 0; v.play().catch(() => {}); }
+      sync();
+    });
+    const toggle = () => { v.paused ? v.play().catch(() => {}) : v.pause(); };
+    v.addEventListener('click', toggle);
+    v.parentElement.querySelector('.play').addEventListener('click', toggle);
+    v.addEventListener('play', () => v.parentElement.classList.add('playing'));
+    v.addEventListener('pause', () => v.parentElement.classList.remove('playing'));
+  });
 
   // ---------- smooth wheel scrolling ----------
   let lenis = null;
