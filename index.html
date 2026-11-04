@@ -130,6 +130,8 @@
   .reel p{margin:0 4px 6px;color:var(--muted);font-size:.85rem}
   .reels .rv:nth-child(2){transition-delay:.08s}
   .reels .rv:nth-child(3){transition-delay:.16s}
+  @media (min-width:900px){ .reels.cars{grid-template-columns:repeat(3,1fr)} }
+  #edits .sub{margin:40px 0 0;font-size:1.15rem}
   @media (max-width:640px){ .reels{grid-template-columns:1fr;max-width:360px;margin-left:auto;margin-right:auto} }
   button.btn{font:inherit;color:inherit;cursor:pointer}
   .hint{margin-top:14px;font-size:.85rem;color:var(--cyan);display:flex;align-items:center;gap:8px}
@@ -286,7 +288,7 @@
     <div class="wrap">
       <div class="eyebrow rv">Video editing</div>
       <h2 class="rv">Short-form <span class="grad">edits</span></h2>
-      <p class="lead rv">Vertical spec ads I edited for TikTok, Reels and Shorts: real footage, cuts on the beat and animated captions. The brands are made up for practice.</p>
+      <p class="lead rv">Vertical edits for TikTok, Reels and Shorts: spec ads with animated captions and car montages, all real footage cut on the beat. The brands are made up for practice.</p>
       <div class="reels">
         <div class="reel rv"><div class="screen"><video src="videos/hilom-iced-coffee.mp4" poster="videos/hilom-iced-coffee.webp" muted loop playsinline preload="none" aria-label="Iced coffee spec ad"></video><button class="play" type="button" aria-label="Play Iced coffee spec ad"></button><button class="snd" type="button">🔇 Sound</button></div>
           <h3>Iced coffee</h3><p>Lo-fi, warm grade · 15 s</p></div>
@@ -295,7 +297,14 @@
         <div class="reel rv"><div class="screen"><video src="videos/kalye-sneakers.mp4" poster="videos/kalye-sneakers.webp" muted loop playsinline preload="none" aria-label="Sneaker spec ad"></video><button class="play" type="button" aria-label="Play Sneaker spec ad"></button><button class="snd" type="button">🔇 Sound</button></div>
           <h3>Sneakers</h3><p>Hip-hop, bold type · 16 s</p></div>
       </div>
-      <p class="also rv">Footage: Pexels · Music: Mixkit</p>
+      <h3 class="sub rv">Car edits</h3>
+      <div class="reels cars">
+        <div class="reel rv"><div class="screen"><video src="videos/toyota86-phonk.mp4" poster="videos/toyota86-phonk.webp" muted loop playsinline preload="none" aria-label="Toyota 86 phonk car edit"></video><button class="play" type="button" aria-label="Play Toyota 86 phonk car edit"></button><button class="snd" type="button">🔇 Sound</button></div>
+          <h3>Toyota 86 · Phonk</h3><p>Dark grade, stutter cuts · 25 s</p></div>
+        <div class="reel rv"><div class="screen"><video src="videos/toyota86-velocity.mp4" poster="videos/toyota86-velocity.webp" muted loop playsinline preload="none" aria-label="Toyota 86 velocity car edit"></video><button class="play" type="button" aria-label="Play Toyota 86 velocity car edit"></button><button class="snd" type="button">🔇 Sound</button></div>
+          <h3>Toyota 86 · Velocity</h3><p>Speed ramps, zoom punches · 26 s</p></div>
+      </div>
+      <p class="also rv">Footage: Pexels · Music: Mixkit, Pixabay</p>
     </div>
   </section>
 
