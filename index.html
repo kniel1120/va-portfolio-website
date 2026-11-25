@@ -132,6 +132,31 @@
   .reels .rv:nth-child(3){transition-delay:.16s}
   @media (min-width:900px){ .reels.cars{grid-template-columns:repeat(3,1fr)} }
   #edits .sub{margin:40px 0 0;font-size:1.15rem}
+  .reel img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block}
+  .rs-case{margin-top:18px;display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:14px}
+  .rs-case .card h4{margin:0 0 6px;font-size:.95rem}
+  .rs-case .card p{margin:0;color:var(--muted);font-size:.88rem;line-height:1.5}
+  .album{display:block;width:100%;position:relative;cursor:pointer;border:0;padding:0;background:none;text-align:left;color:inherit;font:inherit}
+  .album .stack{position:absolute;inset:0;border-radius:14px;overflow:hidden}
+  .album .stack img{position:absolute;width:52%;aspect-ratio:9/16;object-fit:cover;border-radius:10px;box-shadow:0 8px 24px rgba(0,0,0,.5)}
+  .album .stack img:nth-child(1){left:6%;top:12%;transform:rotate(-8deg)}
+  .album .stack img:nth-child(2){left:42%;top:10%;transform:rotate(7deg)}
+  .album .stack img:nth-child(3){left:24%;top:22%;transform:rotate(-1deg);z-index:2}
+  .album .badge{position:absolute;left:50%;bottom:16px;transform:translateX(-50%);z-index:3;white-space:nowrap;padding:8px 16px;border-radius:999px;font-weight:700;font-size:.85rem;color:#fff;background:linear-gradient(90deg,#7c5cff,#22d3ee)}
+  .gal{position:fixed;inset:0;z-index:1000;background:rgba(5,8,14,.94);backdrop-filter:blur(8px);display:none;flex-direction:column}
+  .gal.open{display:flex}
+  .gal header{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:14px 16px;border-bottom:1px solid var(--line)}
+  .gal header b{font-size:1rem}
+  .gal header .tabs button,.gal .x{border:1px solid var(--line);background:var(--card);color:#fff;border-radius:999px;padding:6px 12px;cursor:pointer;font:600 .8rem/1 inherit;margin-left:4px}
+  .gal header .tabs button.on{background:linear-gradient(90deg,#7c5cff,#22d3ee);border-color:transparent}
+  .gal .grid-g{overflow:auto;padding:16px;display:grid;grid-template-columns:repeat(auto-fill,minmax(120px,1fr));gap:10px}
+  .gal .grid-g img{width:100%;aspect-ratio:9/16;object-fit:cover;border-radius:8px;cursor:zoom-in;background:#0e1116}
+  .gal .big{position:fixed;inset:0;z-index:1001;display:none;align-items:center;justify-content:center;background:rgba(0,0,0,.9)}
+  .gal .big.open{display:flex}
+  .gal .big img{max-height:92vh;max-width:92vw;border-radius:12px}
+  .gal .big button{position:absolute;top:50%;transform:translateY(-50%);border:0;background:rgba(255,255,255,.12);color:#fff;font-size:2rem;width:48px;height:64px;border-radius:12px;cursor:pointer}
+  .gal .big .prev{left:12px}.gal .big .next{right:12px}
+  .gal .big .cnt{position:absolute;bottom:14px;left:50%;transform:translateX(-50%);color:#ccc;font-size:.85rem}
   @media (max-width:640px){ .reels{grid-template-columns:1fr;max-width:360px;margin-left:auto;margin-right:auto} }
   button.btn{font:inherit;color:inherit;cursor:pointer}
   .hint{margin-top:14px;font-size:.85rem;color:var(--cyan);display:flex;align-items:center;gap:8px}
@@ -311,6 +336,27 @@
           <h3>Toyota 86 · Velocity</h3><p>Speed ramps, zoom punches · 26 s</p></div>
       </div>
       <p class="also rv">Footage: Pexels · Music: Mixkit, Pixabay · SFX: Mixkit</p>
+      <h3 class="sub rv">Client project · Rap news pictures for Snapchat</h3>
+      <p class="lead rv">A Snapchat media client sent a Photoshop template and one example, and needed batches of 50 news pictures. Instead of designing them by hand, I rebuilt the template in code and delivered 150 pictures in 3 batches, each one checked by hand.</p>
+      <div class="reels rs">
+        <div class="reel rv"><div class="screen"><img src="img/rapsnap/moneybagg.webp" alt="Rap news picture: Moneybagg Yo gives free Thanksgiving groceries to 200 families" loading="lazy" width="540" height="960"></div>
+          <h3>Charity news</h3><p>Photo fills the frame, key words in yellow</p></div>
+        <div class="reel rv"><div class="screen"><img src="img/rapsnap/snoop.webp" alt="Rap news picture: Snoop Dogg's Doggystyle album anniversary" loading="lazy" width="540" height="960"></div>
+          <h3>Album anniversary</h3><p>Same template, auto-fitted text</p></div>
+        <div class="reel rv"><div class="screen"><img src="img/rapsnap/jayz.webp" alt="Rap news picture: Jay-Z confirmed for the Super Bowl halftime show" loading="lazy" width="540" height="960"></div>
+          <h3>Breaking news</h3><p>Face-aware crop, text never on the face</p></div>
+        <div class="reel rv"><button class="screen album" type="button" id="rsAlbum" aria-label="Open the album with all 150 pictures">
+          <span class="stack"><img src="img/rapsnap/album/b2_05.webp" alt="" loading="lazy"><img src="img/rapsnap/album/b3_05.webp" alt="" loading="lazy"><img src="img/rapsnap/album/b2_08.webp" alt="" loading="lazy"></span>
+          <span class="badge">Open album · 150 pics</span></button>
+          <h3>Full album</h3><p>All 3 batches, tap any picture to view it</p></div>
+      </div>
+      <div class="rs-case">
+        <div class="card rv"><h4>Template → code</h4><p>Read the client's Photoshop file for the exact font, sizes, colours, glow and gradient, then rebuilt it in Python so every picture matches.</p></div>
+        <div class="card rv"><h4>Sourcing</h4><p>Pulled the newest posts from the client's source pages, wrote the captions with the key names and numbers highlighted and censored strong words.</p></div>
+        <div class="card rv"><h4>Smart crops</h4><p>Face detection places each photo so no face is cut at the edges or hidden behind the text; long posts get a smaller font automatically.</p></div>
+        <div class="card rv"><h4>QA + delivery</h4><p>Every picture checked one by one (full face, right person, no typos, no repeats), then uploaded to the client's Drive and verified file by file.</p></div>
+      </div>
+      <p class="also rv">Built with Python (Pillow, OpenCV) · Photos belong to their owners; shown as client work samples.</p>
     </div>
   </section>
 
@@ -1805,6 +1851,36 @@
     plant.children.slice().forEach(o => plant.remove(o));
     plant.add(m);
   }, undefined, err => console.warn('Plant model failed to load, keeping the code plant', err));
+})();
+</script>
+<div class="gal" id="rsGal" role="dialog" aria-modal="true" aria-label="Rap news pictures album">
+  <header><b>Rap news pictures · <span id="rsCount">150</span></b>
+    <span class="tabs"><button data-b="0" class="on">All</button><button data-b="1">Batch 1</button><button data-b="2">Batch 2</button><button data-b="3">Batch 3</button><button class="x" id="rsClose" aria-label="Close album">✕</button></span></header>
+  <div class="grid-g" id="rsGrid"></div>
+  <div class="big" id="rsBig"><button class="prev" aria-label="Previous">‹</button><img id="rsBigImg" alt=""><button class="next" aria-label="Next">›</button><span class="cnt" id="rsCnt"></span></div>
+</div>
+<script>
+(()=>{
+  const all=[];for(let b=1;b<=3;b++)for(let n=1;n<=50;n++)all.push({b,src:`img/rapsnap/album/b${b}_${String(n).padStart(2,'0')}.webp`});
+  const gal=document.getElementById('rsGal'),grid=document.getElementById('rsGrid'),big=document.getElementById('rsBig'),bigImg=document.getElementById('rsBigImg'),cnt=document.getElementById('rsCnt');
+  let list=all,idx=0;
+  function render(b){list=b?all.filter(x=>x.b===b):all;document.getElementById('rsCount').textContent=list.length;
+    grid.innerHTML=list.map((x,i)=>`<img src="${x.src}" loading="lazy" alt="Rap news picture ${i+1}" data-i="${i}">`).join('');
+    gal.querySelectorAll('.tabs [data-b]').forEach(t=>t.classList.toggle('on',+t.dataset.b===b));}
+  function show(i){idx=(i+list.length)%list.length;bigImg.src=list[idx].src;cnt.textContent=`${idx+1} / ${list.length}`;big.classList.add('open');}
+  document.getElementById('rsAlbum').addEventListener('click',()=>{render(0);gal.classList.add('open');document.body.style.overflow='hidden';});
+  function close(){gal.classList.remove('open');big.classList.remove('open');document.body.style.overflow='';}
+  document.getElementById('rsClose').addEventListener('click',close);
+  gal.querySelectorAll('.tabs [data-b]').forEach(t=>t.addEventListener('click',()=>render(+t.dataset.b)));
+  grid.addEventListener('click',e=>{if(e.target.dataset.i)show(+e.target.dataset.i);});
+  big.querySelector('.prev').addEventListener('click',e=>{e.stopPropagation();show(idx-1);});
+  big.querySelector('.next').addEventListener('click',e=>{e.stopPropagation();show(idx+1);});
+  big.addEventListener('click',e=>{if(e.target===big)big.classList.remove('open');});
+  document.addEventListener('keydown',e=>{if(!gal.classList.contains('open'))return;
+    if(e.key==='Escape'){big.classList.contains('open')?big.classList.remove('open'):close();}
+    if(big.classList.contains('open')){if(e.key==='ArrowLeft')show(idx-1);if(e.key==='ArrowRight')show(idx+1);}});
+  let sx=null;big.addEventListener('touchstart',e=>sx=e.touches[0].clientX,{passive:true});
+  big.addEventListener('touchend',e=>{if(sx===null)return;const d=e.changedTouches[0].clientX-sx;if(Math.abs(d)>40)show(idx+(d<0?1:-1));sx=null;});
 })();
 </script>
 </body>
