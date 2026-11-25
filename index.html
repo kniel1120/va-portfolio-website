@@ -142,14 +142,14 @@
   .album:hover .stack img{transform:scale(1.04)}
   .album::after{content:"";position:absolute;inset:0;border-radius:14px;background:linear-gradient(transparent 55%,rgba(5,8,14,.85));pointer-events:none;z-index:2}
   .album .badge{position:absolute;left:50%;bottom:16px;transform:translateX(-50%);z-index:3;white-space:nowrap;padding:8px 16px;border-radius:999px;font-weight:700;font-size:.85rem;color:#fff;background:linear-gradient(90deg,#7c5cff,#22d3ee)}
-  .gal{position:fixed;inset:0;z-index:1000;background:rgba(5,8,14,.94);backdrop-filter:blur(8px);display:none;flex-direction:column}
+  .gal{cursor:default;position:fixed;inset:0;z-index:1000;background:rgba(5,8,14,.94);backdrop-filter:blur(8px);display:none;flex-direction:column}
   .gal.open{display:flex}
   .gal header{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:14px 16px;border-bottom:1px solid var(--line)}
   .gal header b{font-size:1rem}
   .gal header .tabs button,.gal .x{border:1px solid var(--line);background:var(--card);color:#fff;border-radius:999px;padding:6px 12px;cursor:pointer;font:600 .8rem/1 inherit;margin-left:4px}
   .gal header .tabs button.on{background:linear-gradient(90deg,#7c5cff,#22d3ee);border-color:transparent}
   .gal .grid-g{overflow:auto;padding:16px;display:grid;grid-template-columns:repeat(auto-fill,minmax(120px,1fr));gap:10px}
-  .gal .grid-g img{width:100%;aspect-ratio:9/16;object-fit:cover;border-radius:8px;cursor:zoom-in;background:#0e1116}
+  .gal .grid-g img{cursor:zoom-in;width:100%;aspect-ratio:9/16;object-fit:cover;border-radius:8px;cursor:zoom-in;background:#0e1116}
   .gal .big{position:fixed;inset:0;z-index:1001;display:none;align-items:center;justify-content:center;background:rgba(0,0,0,.9)}
   .gal .big.open{display:flex}
   .gal .big img{max-height:92vh;max-width:92vw;border-radius:12px}
@@ -1867,8 +1867,9 @@
     grid.innerHTML=list.map((x,i)=>`<img src="${x.src}" loading="lazy" alt="Rap news picture ${i+1}" data-i="${i}">`).join('');
     gal.querySelectorAll('.tabs [data-b]').forEach(t=>t.classList.toggle('on',+t.dataset.b===b));}
   function show(i){idx=(i+list.length)%list.length;bigImg.src=list[idx].src;cnt.textContent=`${idx+1} / ${list.length}`;big.classList.add('open');}
-  document.getElementById('rsAlbum').addEventListener('click',()=>{render(0);gal.classList.add('open');document.body.style.overflow='hidden';});
-  function close(){gal.classList.remove('open');big.classList.remove('open');document.body.style.overflow='';}
+  const H=document.documentElement,cv=document.getElementById('cursor');let hadCC=false;
+  document.getElementById('rsAlbum').addEventListener('click',()=>{render(0);gal.classList.add('open');document.body.style.overflow='hidden';hadCC=H.classList.contains('cc');H.classList.remove('cc');if(cv)cv.style.visibility='hidden';});
+  function close(){gal.classList.remove('open');big.classList.remove('open');document.body.style.overflow='';if(hadCC)H.classList.add('cc');if(cv)cv.style.visibility='';}
   document.getElementById('rsClose').addEventListener('click',close);
   gal.querySelectorAll('.tabs [data-b]').forEach(t=>t.addEventListener('click',()=>render(+t.dataset.b)));
   grid.addEventListener('click',e=>{if(e.target.dataset.i)show(+e.target.dataset.i);});
