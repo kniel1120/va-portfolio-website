@@ -137,11 +137,10 @@
   .rs-case .card h4{margin:0 0 6px;font-size:.95rem}
   .rs-case .card p{margin:0;color:var(--muted);font-size:.88rem;line-height:1.5}
   .album{display:block;width:100%;position:relative;cursor:pointer;border:0;padding:0;background:none;text-align:left;color:inherit;font:inherit}
-  .album .stack{position:absolute;inset:0;border-radius:14px;overflow:hidden}
-  .album .stack img{position:absolute;width:52%;aspect-ratio:9/16;object-fit:cover;border-radius:10px;box-shadow:0 8px 24px rgba(0,0,0,.5)}
-  .album .stack img:nth-child(1){left:6%;top:12%;transform:rotate(-8deg)}
-  .album .stack img:nth-child(2){left:42%;top:10%;transform:rotate(7deg)}
-  .album .stack img:nth-child(3){left:24%;top:22%;transform:rotate(-1deg);z-index:2}
+  .album .stack{position:absolute;inset:0;display:grid;grid-template-columns:1fr 1fr;grid-template-rows:1fr 1fr;gap:3px;border-radius:14px;overflow:hidden;background:#0e1116}
+  .album .stack img{position:static;inset:auto;width:100%;height:100%;object-fit:cover;display:block;transition:transform .4s}
+  .album:hover .stack img{transform:scale(1.04)}
+  .album::after{content:"";position:absolute;inset:0;border-radius:14px;background:linear-gradient(transparent 55%,rgba(5,8,14,.85));pointer-events:none;z-index:2}
   .album .badge{position:absolute;left:50%;bottom:16px;transform:translateX(-50%);z-index:3;white-space:nowrap;padding:8px 16px;border-radius:999px;font-weight:700;font-size:.85rem;color:#fff;background:linear-gradient(90deg,#7c5cff,#22d3ee)}
   .gal{position:fixed;inset:0;z-index:1000;background:rgba(5,8,14,.94);backdrop-filter:blur(8px);display:none;flex-direction:column}
   .gal.open{display:flex}
@@ -346,8 +345,8 @@
         <div class="reel rv"><div class="screen"><img src="img/rapsnap/jayz.webp" alt="Rap news picture: Jay-Z confirmed for the Super Bowl halftime show" loading="lazy" width="540" height="960"></div>
           <h3>Breaking news</h3><p>Face-aware crop, text never on the face</p></div>
         <div class="reel rv"><button class="screen album" type="button" id="rsAlbum" aria-label="Open the album with all 150 pictures">
-          <span class="stack"><img src="img/rapsnap/album/b2_05.webp" alt="" loading="lazy"><img src="img/rapsnap/album/b3_05.webp" alt="" loading="lazy"><img src="img/rapsnap/album/b2_08.webp" alt="" loading="lazy"></span>
-          <span class="badge">Open album · 150 pics</span></button>
+          <span class="stack"><img src="img/rapsnap/album/b2_04.webp" alt="" loading="lazy"><img src="img/rapsnap/album/b3_05.webp" alt="" loading="lazy"><img src="img/rapsnap/album/b1_29.webp" alt="" loading="lazy"><img src="img/rapsnap/album/b3_32.webp" alt="" loading="lazy"></span>
+          <span class="badge">View all 150 →</span></button>
           <h3>Full album</h3><p>All 3 batches, tap any picture to view it</p></div>
       </div>
       <div class="rs-case">
